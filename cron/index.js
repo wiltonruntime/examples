@@ -13,7 +13,7 @@ define([
         ]
     });
 
-    var logger = new Logger("examples.cron.index");
+    var logger = new Logger("cron.index");
 
     return {
         main: function() {
@@ -22,7 +22,7 @@ define([
             var cron = new CronTask({
                 expression: "* * * * * *",
                 callbackScript: {
-                    module: "examples/cron/jobs/testJob",
+                    module: "cron/jobs/testJob",
                     func: "logHello",
                     args: []
                 }

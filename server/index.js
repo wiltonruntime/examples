@@ -14,19 +14,19 @@ define([
         ]
     });
 
-    var logger = new Logger("examples.server.main");
+    var logger = new Logger("server.main");
 
     return {
         main: function() {
             var server = new Server({
                 tcpPort: 8080,
                 views: [
-                    "examples/server/views/hi",
-                    "examples/server/views/bye"
+                    "server/views/hi",
+                    "server/views/bye"
                 ]
             });
 
-            // http://127.0.0.1:8080/examples/server/views/hi?foo=41&bar=42
+            // http://127.0.0.1:8080/server/views/hi?foo=41&bar=42
 
             for(;;) {
                 logger.info("Server is running ...");
