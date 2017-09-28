@@ -2,10 +2,9 @@
 define([], function() {
     return {
         GET: function(req) {
-            var meta = req.getMetadata();
             req.sendResponse({
                 msg: "hello from GET handler",
-                inputData: meta.queries
+                inputData: req.meta().queries
             });
         },
 
