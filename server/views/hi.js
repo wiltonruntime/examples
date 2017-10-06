@@ -11,7 +11,7 @@ define([], function() {
         POST: function(req) {
             req.sendResponse({
                 msg: "hello from POST handler",
-                inputData: req.getData()
+                inputData: req.data()
             });
         }
     };
