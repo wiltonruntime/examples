@@ -2,7 +2,7 @@
 -- cat ../js/examples/bootstrap/schema.sql | sqlite3 bootstrapExample.db
 begin;
 
--- potgres sequence
+-- postgres sequence
 -- drop sequence if exists natproxy_requests_seq;
 -- create sequence natproxy_requests_seq;
 
@@ -19,7 +19,7 @@ create table bootstrap_users(
     id bigint primary key,
     nick text not null,
     email text not null,
-    allow_spam boolean not null
+    allow_spam integer not null
 );
 
 -- indices

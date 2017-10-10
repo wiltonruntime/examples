@@ -14,7 +14,7 @@ insert into bootstrap_users (id, nick, email, allow_spam)
     values(:id, :nick, :email, :spam)
 
 /** userSelectById */
-select 
+select
     id as id,
     nick as nick,
     email as email,
@@ -23,7 +23,7 @@ from bootstrap_users
     where id = :id
 
 /** userSelect */
-select 
+select
     id as id,
     nick as nick,
     email as email,

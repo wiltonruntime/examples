@@ -5,8 +5,9 @@ define([
     "wilton/loader",
     "wilton/misc",
     "wilton/Server",
-    "wilton/shared"
-], function(module, Logger, loader, misc, Server, shared) {
+    "wilton/shared",
+    "bootstrap/models/schema"
+], function(module, Logger, loader, misc, Server, shared, schema) {
     var logger = new Logger(module.id);
 
     var conf = {
@@ -19,6 +20,9 @@ define([
         main: function() {
             // init logging
             Logger.initConsole("INFO");
+
+            // create DB schema
+            schema.create();
 
             // start server
             var server = new Server({
@@ -33,8 +37,10 @@ define([
                     partialsDirs: [
                         loader.findModulePath("bootstrap/mustache")
                     ]
-                }
+                },
+                rootRedirectLocation: "/bootstrap/views/description"
             });
+            logger.info("Server started: http://127.0.0.1:8080/" );
 
             misc.waitForSignal();
 

@@ -21,25 +21,25 @@
                     </div>
                     <div class="panel-body">
                         <form id="userForm" class="form-horizontal" method="post">
-                            <div class="form-group {{#nick.error}}has-error{{/nick.error}}">
+                            <div class="form-group {{#errors.nick}}has-error{{/errors.nick}}">
                                 <label class="control-label col-sm-2" for="nick">Nickname:</label>
                                 <div class="col-sm-10">
-                                    <input id="nick" name="nick" type="text" class="form-control" value="{{nick.value}}" placeholder="Enter nickname">
-                                    {{#nick.error}}<span class="help-block">{{nick.error}}</span>{{/nick.error}}
+                                    <input id="nick" name="nick" type="text" class="form-control" value="{{form.nick}}" placeholder="Enter nickname">
+                                    {{#errors.nick}}<span class="help-block">{{errors.nick}}</span>{{/errors.nick}}
                                 </div>
                             </div>
-                            <div class="form-group {{#email.error}}has-error{{/email.error}}">
+                            <div class="form-group {{#errors.email}}has-error{{/errors.email}}">
                                 <label class="control-label col-sm-2" for="email">Email:</label>
                                 <div class="col-sm-10">
-                                    <input id="email" name="email" type="text" class="form-control" value="{{email.value}}" placeholder="Enter email">
-                                    {{#email.error}}<span class="help-block">{{email.error}}</span>{{/email.error}}
+                                    <input id="email" name="email" type="text" class="form-control" value="{{form.email}}" placeholder="Enter email">
+                                    {{#errors.email}}<span class="help-block">{{errors.email}}</span>{{/errors.email}}
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
                                     <div class="checkbox">
                                         <label><input id="spam" name="spam" type="checkbox" 
-                                                      {{#spam.value}}checked{{/spam.value}}> Allow spam</label>
+                                                      {{#form.spam}}checked{{/form.spam}}> Allow spam</label>
                                     </div>
                                 </div>
                             </div>
