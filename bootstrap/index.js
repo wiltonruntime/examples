@@ -4,13 +4,23 @@ define([
     "wilton/Logger",
     "wilton/loader",
     "wilton/misc",
-    "wilton/Server"
-], function(module, Logger, loader, misc, Server) {
+    "wilton/Server",
+    "wilton/shared"
+], function(module, Logger, loader, misc, Server, shared) {
     var logger = new Logger(module.id);
+
+    var conf = {
+        dbUrl: "sqlite://bootstrapExample.db"
+    };
+
+    shared.put("bootstrap/conf", conf);
 
     return {
         main: function() {
+            // init logging
             Logger.initConsole("INFO");
+
+            // start server
             var server = new Server({
                 tcpPort: 8080,
                 views: [
