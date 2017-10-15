@@ -10,7 +10,7 @@
 
             <div class="col-sm-3">
                 <div class="list-group">
-                    {{> leftMenu}}
+                    {{> LeftMenu}}
                 </div>
             </div>
 
@@ -30,16 +30,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            {{#users}}
+                                {{#users}}
                                 <tr>
                                     <td>{{id}}</td>
                                     <td>{{nick}}</td>
                                     <td>{{email}}</td>
                                     <td>{{spam}}</td>
                                 </tr>
-                            {{/users}}
+                                {{/users}}
                             </tbody>
                         </table>
+                        {{> Pagination}}
                     </div>
                 </div>
             </div>

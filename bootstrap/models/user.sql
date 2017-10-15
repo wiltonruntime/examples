@@ -1,19 +1,19 @@
 
 -- user queries
 
-/** userIdUpdate */
+/** idUpdate */
 update bootstrap_users_seq
     set value = value + 1
 
-/** userIdSelect */
+/** idSelect */
 select value as id
 from bootstrap_users_seq
 
-/** userInsert */
+/** insert */
 insert into bootstrap_users (id, nick, email, allow_spam)
     values(:id, :nick, :email, :spam)
 
-/** userSelectById */
+/** selectById */
 select
     id as id,
     nick as nick,
@@ -22,7 +22,7 @@ select
 from bootstrap_users
     where id = :id
 
-/** userSelect */
+/** select */
 select
     id as id,
     nick as nick,
@@ -35,4 +35,11 @@ from bootstrap_users
     ((:email is NULL) or (email = :email))
     and 
     ((:spam is NULL) or (allow_spam = :spam))
-order by id
+order by id desc
+-- cannot make real parameters work with sqlite
+-- on postgres always use real parameters
+limit ${limit}
+offset ${offset}
+
+/** count */
+select count(1) as count from bootstrap_users

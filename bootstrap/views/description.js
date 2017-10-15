@@ -1,12 +1,16 @@
 
 define([
     "module",
-    "./_leftMenuItems"
-], function(module, leftMenuItems) {
+    "../conf",
+    "../components/LeftMenu"
+], function(module, conf, LeftMenu) {
+
+    var leftMenu = new LeftMenu(conf.leftMenu);
+
     return {
         GET: function(req) {
             req.sendMustache(module.uri, {
-                leftMenuItems: leftMenuItems("description")
+                leftMenuItems: leftMenu.items("description")
             });
         }
     };

@@ -4,15 +4,18 @@ define([
     "lodash/isEmpty",
     "validator/lib/isEmail",
     "wilton/Logger",
-    "../models/user",
-    "./_leftMenuItems"
-], function(module, isEmpty, isEmail, Logger, user, leftMenuItems) {
+    "../conf",
+    "../components/LeftMenu",
+    "../models/user"
+], function(module, isEmpty, isEmail, Logger, conf, LeftMenu, user) {
     var logger = new Logger(module.id);
+
+    var leftMenu = new LeftMenu(conf.leftMenu);
 
     return {
         GET: function(req) {
             req.sendMustache(module.uri, {
-                leftMenuItems: leftMenuItems("addUser")
+                leftMenuItems: leftMenu.items("addUser")
             });
         },
 
@@ -27,7 +30,7 @@ define([
             }
             if (!isEmpty(errors)) {
                 req.sendMustache(module.uri, {
-                    leftMenuItems: leftMenuItems("addUser"),
+                    leftMenuItems: leftMenu.items("addUser"),
                     form: form,
                     errors: errors
                 });

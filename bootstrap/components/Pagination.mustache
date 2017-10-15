@@ -1,0 +1,13 @@
+<ul class="pagination">
+    {{#paginationButtons}}
+        {{#normal}}
+        <li><a href="{{url}}{{index}}">{{label}}</a></li>
+        {{/normal}}
+        {{#active}}
+        <li class="active"><a href="#">{{label}}</a></li>
+        {{/active}}
+        {{#ellipsis}}
+            <li class="disabled"><a href="#">{{label}}</a></li>
+        {{/ellipsis}}
+    {{/paginationButtons}}
+</ul>

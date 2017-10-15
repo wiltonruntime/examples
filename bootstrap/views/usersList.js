@@ -1,15 +1,29 @@
 
 define([
     "module",
+    "../conf",
     "../models/user",
-    "./_leftMenuItems"
-], function(module, user, leftMenuItems) {
+    "../components/LeftMenu",
+    "../components/Pagination"
+], function(module, conf, user, LeftMenu, Pagination) {
+
+    var leftMenu = new LeftMenu(conf.leftMenu);
+    var pagination = new Pagination(conf.paginationUrl, conf.tablePageSize);
+
     return {
         GET: function(req) {
-            var users = user.loadAll();
+            var qrs = req.meta().queries;
+            var page = qrs.hasOwnProperty("page") ? parseInt(qrs.page, 10) : 1;
+
+            var users = user.load({
+                page: page
+            });
+            var count = user.count();
+
             req.sendMustache(module.uri, {
-                leftMenuItems: leftMenuItems("usersList"),
-                users: users
+                leftMenuItems: leftMenu.items("usersList"),
+                users: users,
+                paginationButtons: pagination.buttons(page, count)
             });
         }
     };
