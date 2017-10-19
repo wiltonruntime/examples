@@ -3,6 +3,7 @@ define([
     "wilton/Logger",
     "wilton/loader"
 ], function(Logger, loader) {
+    "use strict";
 
     return {
         main: function(cmd) {

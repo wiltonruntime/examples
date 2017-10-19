@@ -1,5 +1,6 @@
 
 define([], function() {
+    "use strict";
 
     var FIRST = String.fromCharCode(171);
     var PREVIOUS = String.fromCharCode(8249);

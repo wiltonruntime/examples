@@ -5,19 +5,13 @@ define([
     "wilton/Server",
     "wilton/thread"
 ], function(http, Logger, Server, thread) {
-
-    Logger.initialize({
-        appenders: [{
-                appenderType: "CONSOLE",
-                thresholdLevel: "INFO"
-            }
-        ]
-    });
+    "use strict";
 
     var logger = new Logger("server.main");
 
     return {
         main: function() {
+            Logger.initConsole("INFO");
             var server = new Server({
                 tcpPort: 8080,
                 views: [

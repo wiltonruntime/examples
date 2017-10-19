@@ -5,6 +5,7 @@ define([
     "lodash/forEach",
     "wilton/utils"
 ], function(bind, cloneDeep, forEach, utils) {
+    "use strict";
 
     function LeftMenu(options) {
         utils.checkProperties(options, ["urlPrefix", "items"]);

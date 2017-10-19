@@ -4,19 +4,13 @@ define([
         "wilton/Logger",
         "wilton/thread"
 ], function(CronTask, Logger, thread) {
-
-    Logger.initialize({
-        appenders: [{
-                appenderType: "CONSOLE",
-                thresholdLevel: "INFO"
-            }
-        ]
-    });
+    "use strict";
 
     var logger = new Logger("cron.index");
 
     return {
         main: function() {
+            Logger.initConsole("INFO");
             logger.info("Starting cron task ...");
 
             var cron = new CronTask({

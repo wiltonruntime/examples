@@ -5,6 +5,7 @@ define([
     "wilton/Logger",
     "./conn"
 ], function(module, loader, Logger, conn) {
+    "use strict";
     var logger = new Logger(module.id);
     
     return {

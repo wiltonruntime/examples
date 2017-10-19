@@ -6,6 +6,7 @@ define([
     "../components/LeftMenu",
     "../components/Pagination"
 ], function(module, conf, user, LeftMenu, Pagination) {
+    "use strict";
 
     var leftMenu = new LeftMenu(conf.leftMenu);
     var pagination = new Pagination(conf.paginationUrl, conf.tablePageSize);

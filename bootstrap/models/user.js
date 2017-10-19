@@ -11,6 +11,7 @@ define([
     "../conf",
     "./conn"
 ], function(module, bind, map, template, DBConnection, loader, Logger, utils, conf, conn) {
+    "use strict";
     var logger = new Logger(module.id);
     var queriesPath = loader.findModulePath(module.id + ".sql");
     var qrs = DBConnection.loadQueryFile(queriesPath);

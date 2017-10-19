@@ -8,6 +8,7 @@ define([
     "../components/LeftMenu",
     "../models/user"
 ], function(module, isEmpty, isEmail, Logger, conf, LeftMenu, user) {
+    "use strict";
     var logger = new Logger(module.id);
 
     var leftMenu = new LeftMenu(conf.leftMenu);

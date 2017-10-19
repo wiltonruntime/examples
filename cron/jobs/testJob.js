@@ -1,5 +1,6 @@
 
 define(["wilton/Logger"], function(Logger) {
+    "use strict";
 
     var logger = new Logger("examples.cron.jobs.testJob");
 

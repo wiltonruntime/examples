@@ -4,6 +4,7 @@ define([
     "../conf",
     "../components/LeftMenu"
 ], function(module, conf, LeftMenu) {
+    "use strict";
 
     var leftMenu = new LeftMenu(conf.leftMenu);
 

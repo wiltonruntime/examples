@@ -7,6 +7,7 @@ define([
     "wilton/misc",
     "wilton/Server"
 ], function(module, Channel, Logger, loader, misc, Server) {
+    "use strict";
     var logger = new Logger(module.id);
 
     // should be loaded from config file
@@ -36,19 +37,12 @@ define([
                     appenderType: "CONSOLE",
                     thresholdLevel: "DEBUG"
                 }],
-                loggers: [{
-                    name: "staticlib",
-                    level: "WARN"
-                }, {
-                    name: "wilton",
-                    level: "INFO"
-                }, {
-                    name: "wilton.DBConnection",
-                    level: "INFO"
-                }, {
-                    name: "bootstrap",
-                    level: "DEBUG"
-                }]
+                loggers: {
+                    "staticlib": "WARN",
+                    "wilton": "INFO",
+                    "wilton.DBConnection": "INFO",
+                    "bootstrap": "DEBUG"
+                }
             }
         };
     }
