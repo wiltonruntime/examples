@@ -15,29 +15,29 @@ insert into bootstrap_users (id, date_added, nick, email, allow_spam)
 
 /** selectById */
 select
-    id as id,
-    date_added as dateAdded,
-    nick as nick,
-    email as email,
-    allow_spam as spam
+    id as "id",
+    date_added as "dateAdded",
+    nick as "nick",
+    email as "email",
+    allow_spam as "spam"
 from bootstrap_users
     where id = :id
 
 /** select */
 select
-    id as id,
-    nick as nick,
-    email as email,
-    allow_spam as spam
+    id as "id",
+    nick as "nick",
+    email as "email",
+    allow_spam as "spam"
 from bootstrap_users
     where 
-    ((:dateAdded is NULL) or (date_added = :dateAdded))
+    ((:dateAdded is null) or (date_added = :dateAdded))
     and
-    ((:nick is NULL) or (nick = :name))
+    ((:nick is null) or (nick = :name))
     and
-    ((:email is NULL) or (email = :email))
+    ((:email is null) or (email = :email))
     and 
-    ((:spam is NULL) or (allow_spam = :spam))
+    ((:spam is null) or (allow_spam = :spam))
 order by id desc
 -- cannot make real parameters work with sqlite
 -- on postgres always use real parameters
