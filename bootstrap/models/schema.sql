@@ -17,6 +17,7 @@ insert into bootstrap_users_seq(value) values(0);
 drop table if exists bootstrap_users;
 create table bootstrap_users(
     id bigint primary key,
+    date_added date time not null,
     nick text not null,
     email text not null,
     allow_spam integer not null

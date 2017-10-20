@@ -10,12 +10,13 @@ select value as id
 from bootstrap_users_seq
 
 /** insert */
-insert into bootstrap_users (id, nick, email, allow_spam)
-    values(:id, :nick, :email, :spam)
+insert into bootstrap_users (id, date_added, nick, email, allow_spam)
+    values(:id, :dateAdded, :nick, :email, :spam)
 
 /** selectById */
 select
     id as id,
+    date_added as dateAdded,
     nick as nick,
     email as email,
     allow_spam as spam
@@ -30,6 +31,8 @@ select
     allow_spam as spam
 from bootstrap_users
     where 
+    ((:dateAdded is NULL) or (date_added = :dateAdded))
+    and
     ((:nick is NULL) or (nick = :name))
     and
     ((:email is NULL) or (email = :email))

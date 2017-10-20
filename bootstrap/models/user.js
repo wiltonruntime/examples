@@ -4,13 +4,14 @@ define([
     "lodash/bind",
     "lodash/map",
     "lodash/template",
+    "moment",
     "wilton/DBConnection",
     "wilton/loader",
     "wilton/Logger",
     "wilton/utils",
     "../conf",
     "./conn"
-], function(module, bind, map, template, DBConnection, loader, Logger, utils, conf, conn) {
+], function(module, bind, map, template, moment, DBConnection, loader, Logger, utils, conf, conn) {
     "use strict";
     var logger = new Logger(module.id);
     var queriesPath = loader.findModulePath(module.id + ".sql");
@@ -25,6 +26,7 @@ define([
 
         save: function(user) {
             user.spam = user.spam ? 1 : 0;
+            user.dateAdded = moment().format();
             conn.doInTransaction(function() {
                 conn.execute(qrs.insert, user);
             });
@@ -52,6 +54,7 @@ define([
             return map(list, function(rec) {
                 // no real booleans in sqlite
                 rec.spam = 1 === rec.spam;
+                rec.dateAdded = moment(rec.dateAdded).format('YYYY-MM-DD HH:mm:ss');
                 return rec;
             });
         },
@@ -68,6 +71,7 @@ define([
                 for (var i = 0; i < count; i++) {
                     var user = {
                         id: this._idInternal(),
+                        dateAdded: moment().format(),
                         nick: "Somename" + i,
                         email: "some" + i + "@email.com",
                         spam: (0 === i) % 3 ? 0 : 1
