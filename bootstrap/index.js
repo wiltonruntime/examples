@@ -14,8 +14,11 @@ define([
     function loadConfig() {
         return {
             dbUrl: "sqlite://bootstrapExample.db",
-            tablePageSize: 4,
-            paginationUrl: "/bootstrap/views/usersList?page=",
+            tablePageSize: 8,
+            sortArrow: {
+                asc: "&uarr;",
+                desc: "&darr;"
+            },
             leftMenu: {
                 urlPrefix: "/bootstrap/views/",
                 items: [{
@@ -40,7 +43,7 @@ define([
                 loggers: {
                     "staticlib": "WARN",
                     "wilton": "INFO",
-                    "wilton.DBConnection": "INFO",
+                    "wilton.DBConnection": "DEBUG",
                     "bootstrap": "DEBUG"
                 }
             }
@@ -56,6 +59,8 @@ define([
 
             // share conf for other threads
             new Channel("bootstrap/conf", 1).send(conf);
+            // prepare lock for sqlite access
+            new Channel(conf.dbUrl, 1);
 
             // init db using lazy-load deps
             require([
@@ -84,8 +89,8 @@ define([
                     ]
                 },
                 documentRoots: [{
-                    resource: "/docroot",
-                    dirPath: loader.findModulePath("bootstrap/docroot"),
+                    resource: "/web",
+                    dirPath: loader.findModulePath("bootstrap/web"),
                     cacheMaxAgeSeconds: 0
                 }]
             });

@@ -20,14 +20,52 @@
                         <h3 class="panel-title">User List</h3>
                     </div>
                     <div class="panel-body">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <form id="filter" method="get">
+                                        <div class="col-sm-5">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Nick</span>
+                                                <input id="nick" name="nick" type="text" class="form-control" value="{{nick}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Email</span>
+                                                <input id="email" name="email" type="text" class="form-control" value="{{email}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="submit" class="btn btn-primary">Filter</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
-                                    <th>Date</th>
-                                    <th>Nick</th>
-                                    <th>Email</th>
-                                    <th>Allow Spam</th>
+                                    <th><a href="{{sortUrl}}sortval=id&sortdir={{sortdirInverted}}">
+                                            {{{sortArrow.id}}} ID
+                                        </a>
+                                    </th>
+                                    <th><a href="{{sortUrl}}sortval=dateAdded&sortdir={{sortdirInverted}}">
+                                            {{{sortArrow.dateAdded}}} Date
+                                        </a>
+                                    </th>
+                                    <th><a href="{{sortUrl}}sortval=nick&sortdir={{sortdirInverted}}">
+                                            {{{sortArrow.nick}}} Nick
+                                        </a>
+                                    </th>
+                                    <th><a href="{{sortUrl}}sortval=email&sortdir={{sortdirInverted}}">
+                                            {{{sortArrow.email}}} Email
+                                        </a>
+                                    </th>
+                                    <th><a href="{{sortUrl}}sortval=spam&sortdir={{sortdirInverted}}">
+                                            {{{sortArrow.spam}}} allowSpam
+                                        </a>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,7 +80,7 @@
                                 {{/users}}
                             </tbody>
                         </table>
-                        {{> Pagination}}
+                        {{> pagination}}
                     </div>
                 </div>
             </div>

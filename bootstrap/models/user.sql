@@ -26,23 +26,32 @@ from bootstrap_users
 /** select */
 select
     id as "id",
+    date_added as "dateAdded",
     nick as "nick",
     email as "email",
     allow_spam as "spam"
 from bootstrap_users
-    where 
-    ((:dateAdded is null) or (date_added = :dateAdded))
-    and
-    ((:nick is null) or (nick = :name))
-    and
-    ((:email is null) or (email = :email))
-    and 
-    ((:spam is null) or (allow_spam = :spam))
-order by id desc
--- cannot make real parameters work with sqlite
--- on postgres always use real parameters
-limit ${limit}
-offset ${offset}
+where 
+    ((:nick is null or :nick = '') or (nick like :nick || '%'))
+and ((:email is null or :email = '') or (email like :email || '%'))
+order by
+    case when :sortval is null or :sortval = '' then id end desc,
+    case when :sortval = 'id' and (:sortdir = 'asc' or :sortdir is null or :sortdir = '') then id end asc,
+    case when :sortval = 'id' and :sortdir = 'desc' then id end desc,
+    case when :sortval = 'dateAdded' and (:sortdir = 'asc' or :sortdir is null or :sortdir = '') then date_added end asc,
+    case when :sortval = 'dateAdded' and :sortdir = 'desc' then date_added end desc,
+    case when :sortval = 'nick' and (:sortdir = 'asc' or :sortdir is null or :sortdir = '') then nick end asc,
+    case when :sortval = 'nick' and :sortdir = 'desc' then nick end desc,
+    case when :sortval = 'email' and (:sortdir = 'asc' or :sortdir is null or :sortdir = '') then email end asc,
+    case when :sortval = 'email' and :sortdir = 'desc' then email end desc,
+    case when :sortval = 'spam' and (:sortdir = 'asc' or :sortdir is null or :sortdir = '') then spam end asc,
+    case when :sortval = 'spam' and :sortdir = 'desc' then spam end desc
+limit :limit
+offset :offset
 
 /** count */
-select count(1) as count from bootstrap_users
+select count(1) as count
+from bootstrap_users
+where 
+    ((:nick is null or :nick = '') or (nick like :nick || '%'))
+and ((:email is null or :email = '') or (email like :email || '%'))

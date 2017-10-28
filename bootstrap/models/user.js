@@ -19,62 +19,59 @@ define([
 
     return {
         id: function() {
-            return conn.doInTransaction(bind(function() {
+            return conn.doInSyncTransaction(conf.dbUrl, bind(function() {
                 return this._idInternal();
             }, this));
         },
 
         save: function(user) {
-            user.spam = user.spam ? 1 : 0;
-            user.dateAdded = moment().format();
-            conn.doInTransaction(function() {
+            return conn.doInSyncTransaction(conf.dbUrl, bind(function() {
+                user.spam = user.spam ? 1 : 0;
+                user.dateAdded = moment().format();
                 conn.execute(qrs.insert, user);
-            });
+            }, this));
         },
 
         loadById: function(id) {
-            var rec = conn.queryObject(qrs.selectById, {
-                id: id
-            });
-            // no real booleans in sqlite
-            rec.spam = 1 === rec.spam;
+            return conn.doInSyncTransaction(conf.dbUrl, bind(function() {
+                var rec = conn.queryObject(qrs.selectById, {
+                    id: id
+                });
+                // no real booleans in sqlite
+                rec.spam = 1 === rec.spam;
+            }, this));
         },
 
         load: function(params) {
-            var pars = utils.defaultObject(params);
-            utils.checkProperties(pars, ["page"]);
-            var limit = conf.tablePageSize;
-            var offset = (pars.page - 1) * conf.tablePageSize;
-            delete pars.page;
-            var sql = template(qrs.select)({
-                limit: parseInt(limit, 10),
-                offset: parseInt(offset, 10)
-            });
-            var list = conn.queryList(sql, params);
-            return map(list, function(rec) {
-                // no real booleans in sqlite
-                rec.spam = 1 === rec.spam;
-                rec.dateAdded = moment(rec.dateAdded).format('YYYY-MM-DD HH:mm:ss');
-                return rec;
-            });
+            return conn.doInSyncTransaction(conf.dbUrl, bind(function() {
+                var list = conn.queryList(qrs.select, params);
+                return map(list, bind(function(rec) {
+                    // no real booleans in sqlite
+                    rec.spam = 1 === rec.spam;
+                    rec.dateAdded = moment(rec.dateAdded).format('YYYY-MM-DD HH:mm:ss');
+                    return rec;
+                }, this));
+            }, this));
         },
 
-        count: function() {
-            var rec = conn.queryObject(qrs.count);
-            return rec.count;
+        count: function(params) {
+            return conn.doInSyncTransaction(conf.dbUrl, bind(function() {
+                var rec = conn.queryObject(qrs.count, params);
+                return rec.count;
+            }, this));
         },
 
         insertDummyRecords: function() {
-            var count = 64;
-            logger.info("Inserting dummy records, count: [" + count + "]");
-            conn.doInTransaction(bind(function() {
-                for (var i = 0; i < count; i++) {
+            return conn.doInSyncTransaction(conf.dbUrl, bind(function() {
+                var count = 99;
+                logger.info("Inserting dummy records, count: [" + count - 10 + "]");
+                for (var i = 10; i < count; i++) {
                     var user = {
                         id: this._idInternal(),
-                        dateAdded: moment().format(),
-                        nick: "Somename" + i,
-                        email: "some" + i + "@email.com",
-                        spam: (0 === i) % 3 ? 0 : 1
+                        dateAdded: moment().add(i % 2 ? i : -i, 'days').format(),
+                        nick: "a" + i + "SomeNick",
+                        email: "some" + (count - i) + "@email.com",
+                        spam: 0 === i % 3 ? 0 : 1
                     };
                     conn.execute(qrs.insert, user);
                 }
