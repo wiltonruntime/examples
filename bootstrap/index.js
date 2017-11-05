@@ -9,11 +9,12 @@ define([
 ], function(module, Channel, Logger, loader, misc, Server) {
     "use strict";
     var logger = new Logger(module.id);
+    var appdir = misc.wiltonConfig().applicationDirectory;
 
     // should be loaded from config file
     function loadConfig() {
         return {
-            dbUrl: "sqlite://bootstrapExample.db",
+            dbUrl: "sqlite://" + appdir + "bootstrapExample.db",
             tablePageSize: 8,
             sortArrow: {
                 asc: "&uarr;",
