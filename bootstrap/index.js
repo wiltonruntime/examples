@@ -44,7 +44,7 @@ define([
                 loggers: {
                     "staticlib": "WARN",
                     "wilton": "INFO",
-                    "wilton.DBConnection": "DEBUG",
+                    "wilton.DBConnection": "INFO",
                     "bootstrap": "DEBUG"
                 }
             }
