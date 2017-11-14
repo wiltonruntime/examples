@@ -64,7 +64,7 @@ define([
         insertDummyRecords: function() {
             return conn.doInSyncTransaction(conf.dbUrl, bind(function() {
                 var count = 99;
-                logger.info("Inserting dummy records, count: [" + count - 10 + "]");
+                logger.info("Inserting dummy records, count: [" + (count - 10) + "]");
                 for (var i = 10; i < count; i++) {
                     var user = {
                         id: this._idInternal(),
