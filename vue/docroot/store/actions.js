@@ -25,7 +25,7 @@ define(
                 console.log(data);
                 axios({
                     method: "get",
-                    url: BASE_URL + "/pp-wilton-vue-spa-example/views/usersList",
+                    url: BASE_URL + "/vue/views/usersList",
                     params: data
                 })
                     .then((response) => {
@@ -47,7 +47,7 @@ define(
                     console.log(input);
                     axios({
                         method: "get",
-                        url: BASE_URL + "/pp-wilton-vue-spa-example/views/usersList",
+                        url: BASE_URL + "/vue/views/usersList",
                         params: input
                     })
                         .then((response) => {
@@ -71,7 +71,7 @@ define(
                 commit("setWhatever", {type: "currentPage", item: 1});
                 axios({
                     method: "post",
-                    url: BASE_URL + "/pp-wilton-vue-spa-example/views/addUser",
+                    url: BASE_URL + "/vue/views/addUser",
                     params: data
                 })
                     .then((response) => {
