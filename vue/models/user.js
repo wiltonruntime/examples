@@ -25,8 +25,6 @@ define([
         },
 
         save: function(user) {
-            user.spam = user.spam ? 1 : 0;
-            user.dateAdded = moment().format();
             conn.doInTransaction(function() {
                 conn.execute(qrs.insert, user);
             });
@@ -42,19 +40,40 @@ define([
 
         load: function(params) {
             var pars = utils.defaultObject(params);
-            utils.checkProperties(pars, ["page", "qty"]);
+            utils.checkProperties(pars, ["page", "qty", "sortType", "sortDirection", "search"]);
             var limit = pars.qty;
             var offset = (pars.page - 1) * limit;
+            var sortDirection = pars.sortDirection == "down" ? "desc" : "asc";
+            var sortType = pars.sortType == "name" ? "lastname" : pars.sortType;
+            var search = pars.search;
+
             // delete pars.page;
-            var sql = template(qrs.select)({
-                limit: parseInt(limit, 10),
-                offset: parseInt(offset, 10)
-            });
+            logger.info(search.length);
+            if (search.length == 0)
+            {
+                var sql = template(qrs.select)({
+                    limit: parseInt(limit, 10),
+                    offset: parseInt(offset, 10),
+                    sortType: sortType,
+                    sortDirection: sortDirection,
+                });
+            } else {
+                var sql = template(qrs.select)({
+                    limit: parseInt(limit, 10),
+                    offset: parseInt(offset, 10),
+                    sortType: sortType,
+                    sortDirection: sortDirection,
+                    firstname: search.length >= 1 ? search[0] : null,
+                    lastname: search.length >= 2 ? search[1] : null,
+                    primaryname: search.length == 3 ? search[2] : null
+                });
+            };
+            
             var list = conn.queryList(sql);
             return map(list, function(rec) {
                 // no real booleans in sqlite
                 rec.spam = 1 === rec.spam;
-                rec.dateAdded = moment(rec.dateAdded).format('YYYY-MM-DD HH:mm:ss');
+                rec.birthday = moment(rec.birthday, "DD-MM-YYYY").format("DD-MM-YYYY");
                 return rec;
             });
         },
@@ -65,14 +84,34 @@ define([
         },
 
         insertDummyRecords: function() {
-            var count = 64;
+            var count = 10000;
             logger.info("Inserting dummy records, count: [" + count + "]");
             conn.doInTransaction(bind(function() {
                 for (var i = 0; i < count; i++) {
+                    var year = +(Math.floor(Math.random()*(2002 - 1940)) + 1940);
+                    var month = +(Math.floor(Math.random()*(12 - 1)) + 1);
+                    var day = +(Math.floor(Math.random()*(28 - 1)) + 1);
                     var user = {
                         id: this._idInternal(),
-                        dateAdded: moment().format(),
-                        nick: "Somename" + i,
+                        birthday: day + "-" +  month + "-" + year,
+                        firstname: "Firstname" + i,
+                        lastname: "Lastname" + i,
+                        primaryname: "Primaryname" + i,
+                        email: "some" + i + "@email.com",
+                        spam: (0 === i) % 3 ? 0 : 1
+                    };
+                    conn.execute(qrs.insert, user);
+                };
+                for (var i = 0; i < 25; i++) {
+                    var year = +(Math.floor(Math.random()*(2002 - 1940)) + 1940);
+                    var month = +(Math.floor(Math.random()*(12 - 1)) + 1);
+                    var day = +(Math.floor(Math.random()*(28 - 1)) + 1);
+                    var user = {
+                        id: this._idInternal(),
+                        birthday: day + "-" +  month + "-" + year,
+                        firstname: "Firstname",
+                        lastname: "Lastname",
+                        primaryname: "Primaryname",
                         email: "some" + i + "@email.com",
                         spam: (0 === i) % 3 ? 0 : 1
                     };

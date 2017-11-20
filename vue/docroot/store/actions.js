@@ -3,15 +3,29 @@ define(
         "axios",
         "Vue"
     ], function (axios, Vue) {
+
+        const BASE_URL = "http://localhost:4200";
+
         return {
-            getUsers: function ({commit}, data) {
-                let users;
-                let totalPages;
-                let current = parseInt(data.page);
+            getUsers: function ({commit, getters}, data) {
+                let users,
+                    isActiveFilter = getters.getFilterOptions,
+                    search = getters.getSearch,
+                    totalPages,
+                    current = parseInt(data.page);
+
+                if (isActiveFilter.isActive) {
+                    data.sortType = isActiveFilter.type;
+                    data.sortDirection = isActiveFilter.direction
+                }
+                if(search) {
+                    data.search = search
+                }
+
                 console.log(data);
                 axios({
                     method: "get",
-                    url: "http://localhost:4200/vue/views/usersList",
+                    url: BASE_URL + "/pp-wilton-vue-spa-example/views/usersList",
                     params: data
                 })
                     .then((response) => {
@@ -27,18 +41,20 @@ define(
                     });
             },
             search: function ({commit}, input) {
-                if(input.search === "" || input.search === undefined) {
-                    console.log("ther is an empty search field");
+                if (input.search === "" || input.search === undefined) {
+                    console.log("there is an empty search field");
                 } else {
+                    console.log(input);
                     axios({
                         method: "get",
-                        url: "http://localhost:4200/vue/views/usersList",
+                        url: BASE_URL + "/pp-wilton-vue-spa-example/views/usersList",
                         params: input
                     })
                         .then((response) => {
+                        console.log(response);
                             if (response.data !== undefined) {
                                 commit("setWhatever", {type: "users", item: response.data.users});
-                                commit("setWhatever", {type: "totalPages", item: 1});
+                                commit("setWhatever", {type: "totalPages", item: parseInt(response.data.page_qty)});
                                 commit("setWhatever", {type: "currentPage", item: 1});
                             } else {
                                 commit("setWhatever", {type: "users", item: ""})
@@ -50,74 +66,81 @@ define(
                         });
                 }
             },
-            getAllUsers: function ({commit}) {
-                commit("setWhatever", {type: "loading", item: true});
-                let data = {
-                    showAll: true
-                };
-                axios({
-                    method: "get",
-                    url: "http://localhost:4200/vue/views/usersList",
-                    params: data
-                })
-                    .then((response) => {
-                        commit("setWhatever", {type: "users", item: response.data.users});
-                        commit("setWhatever", {type: "totalPages", item: 1});
-                        commit("setWhatever", {type: "currentPage", item: 1});
-                        commit("setWhatever", {type: "loading", item: false});
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        console.log("can't get Users, look at the console");
-                        commit("setWhatever", {type: "loading", item: false});
-                    });
-            },
-            addUser: function ({dispatch, getters}, data) {
+            addUser: function ({dispatch, commit}, data) {
                 console.log(data);
+                commit("setWhatever", {type: "currentPage", item: 1});
                 axios({
                     method: "post",
-                    url: "http://localhost:4200/vue/views/addUser",
+                    url: BASE_URL + "/pp-wilton-vue-spa-example/views/addUser",
                     params: data
                 })
                     .then((response) => {
                         console.log(response);
-                        if (getters.getCurrentPage === 1) {
-                            dispatch("getUsers",
-                                {
-                                    qty: getters.getPerPage,
-                                    page: 1
-                                })
-                        }
+                         dispatch("getUsers",
+                             {
+                                 page: 1
+                             });
                     })
                     .catch((error) => {
                         console.log(error);
                     });
             },
-            nextPage: function ({commit, getters, dispatch}) {
+            filterDrivers: function ({dispatch, getters, commit}, input) {
+                commit("setWhatever", {type: "filter", item: true, subItem: "isActive"});
+                commit("setWhatever", {type: "filter", item: input.sortType, subItem: "type"});
+                commit("setWhatever", {type: "filter", item: input.sortDirection, subItem: "direction"});
+                commit("setWhatever", {type: "filter", item: input.id, subItem: "activeFilter"});
+                dispatch("getUsers",
+                    {
+                        page: getters.getCurrentPage
+                    })
+            },
+            nextPage: function ({commit, getters, dispatch}, input) {
                 let next = getters.getCurrentPage + 1;
                 commit("setWhatever", {type: "currentPage", item: next});
-                dispatch("getUsers",
-                    {
-                        qty: getters.getPerPage,
-                        page: next
-                    })
+                if (input.search === "" || input.search === undefined) {
+                    dispatch("getUsers",
+                        {
+                            page: next
+                        })
+                } else {
+                    dispatch("getUsers",
+                        {
+                            page: next,
+                            search: input.search
+                        })
+                }
             },
-            prevPage: function ({commit, getters, dispatch}) {
+            prevPage: function ({commit, getters, dispatch}, input) {
                 let prev = getters.getCurrentPage - 1;
                 commit("setWhatever", {type: "currentPage", item: prev});
-                dispatch("getUsers",
-                    {
-                        qty: getters.getPerPage,
-                        page: prev
-                    })
+                if (input.search === "" || input.search === undefined) {
+                    dispatch("getUsers",
+                        {
+                            page: prev
+                        })
+                } else {
+                    dispatch("getUsers",
+                        {
+                            page: prev,
+                            search: input.search
+                        })
+                }
             },
-            changePage: function ({commit, getters, dispatch}, page) {
-                dispatch("getUsers",
-                    {
-                        page: page,
-                        qty: getters.getPerPage
-                    });
-                commit("setWhatever", {type: "currentPage", item: page});
+            changePage: function ({commit, dispatch}, input) {
+                commit("setWhatever", {type: "currentPage", item: input.page});
+                if (input.search === "" || input.search === undefined) {
+                    dispatch("getUsers",
+                        {
+                            page: input.page,
+                        });
+                } else {
+                    dispatch("getUsers",
+                        {
+                            page: input.page,
+                            search: input.search
+                        });
+                }
             }
         }
     });

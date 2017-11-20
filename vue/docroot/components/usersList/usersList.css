@@ -18,9 +18,29 @@
 }
 
 .users-list__cell {
+    display: flex;
+    align-items: center;
     width: 20%;
     padding: 10px 15px;
     border-bottom: 1px solid #ddd;
+}
+
+.users-list__cell-text {
+    margin-right: 10px;
+}
+
+.users-list__filter-buttons {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.users-list__filter-button {
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.users-list__filter-button:hover {
+    border-color: #2e6da4;
 }
 
 .main-content__select-number-of-users {
@@ -74,12 +94,13 @@
     display: flex;
 }
 
-.main-content__search-block {
-    margin-right: 15px;
-}
-
 .main-content__search:focus {
     outline: none;
 }
 
+
+.is-active-filter {
+    border: 1px solid blue;
+    background: #c7c7c7 ;
+}
 

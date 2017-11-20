@@ -29,3 +29,24 @@
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075),
     0 0 8px rgba(102,175,233,.6);
 }
+
+.help {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 1rem;
+}
+
+.is-danger {
+    color: red;
+}
+
+.add-user__submit {
+    padding: 10px 15px;
+    background-color: transparent;
+    border: 1px solid #ccc;
+}
+
+.add-user__submit:hover {
+    border-color: #adadad;
+    background-color: #e6e6e6;
+}

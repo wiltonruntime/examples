@@ -6,18 +6,23 @@ define(["Vue", "vuex", "./actions"], function (Vue, VueX, actions) {
         state: {
             users: null,
             totalPages: 0,
-            perPage: 9,
             currentPage: 1,
             pageRange: 2,
             loading: false,
-            search: ""
+            search: "",
+            filter: {
+                activeFilter: 2,
+                isActive: false,
+                type: "",
+                direction: ""
+            }
         },
         getters: {
             getUsers(state) {
                 return state.users;
             },
-            getPerPage(state) {
-                return state.perPage;
+            getSearch(state) {
+                return state.search;
             },
             getCurrentPage(state) {
                 return state.currentPage;
@@ -30,11 +35,18 @@ define(["Vue", "vuex", "./actions"], function (Vue, VueX, actions) {
             },
             getLoading(state) {
                 return state.loading;
+            },
+            getFilterOptions(state) {
+                return state.filter;
             }
         },
         mutations: {
-            setWhatever(state, {type, item}) {
-                state[type] = item;
+            setWhatever(state, {type, item, subItem}) {
+                if (type !== "filter") {
+                    state[type] = item;
+                } else {
+                    state[type][subItem] = item;
+                }
             }
         },
         actions: actions

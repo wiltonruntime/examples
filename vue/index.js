@@ -14,24 +14,7 @@ define([
     function loadConfig() {
         return {
             dbUrl: "sqlite://bootstrapExample.db",
-            tablePageSize: 4,
-            paginationUrl: "/vue/views/usersList?page=",
-            leftMenu: {
-                urlPrefix: "/vue/views/",
-                items: [{
-                    id: "description",
-                    text: "Description"
-                }, {
-                    id: "addUser",
-                    text: "Add User"
-                }, {
-                    id: "usersList",
-                    text: "Users List"
-                }, {
-                    id: "aboutWilton",
-                    text: "About Wilton"
-                }]
-            },
+            usersQtyPerPage: 50,
             logging: {
                 appenders: [{
                     appenderType: "CONSOLE",
@@ -72,9 +55,7 @@ define([
             var server = new Server({
                 tcpPort: 4200,
                 views: [
-                    "vue/views/aboutWilton",
                     "vue/views/addUser",
-                    "vue/views/description",
                     "vue/views/usersList"
                 ],
                 rootRedirectLocation: "/docroot/index.html",

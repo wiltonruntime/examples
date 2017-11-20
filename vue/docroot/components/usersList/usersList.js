@@ -14,20 +14,46 @@ define(["Vue", "lodash", "../pagination/pagination"], function (Vue, _, Paginati
                             </label>
                             <input type="text" class="main-content__search" id="search" v-model="Search">
                         </div>
-                        <div class="main-content__number-of-users-block">
-                            <button class="main-content__show-all" v-on:click.prevent="showAllUsers">
-                                Show all
-                            </button>
-                            <input type="text" class="main-content__select-number-of-users" v-model="Quantity">
-                        </div>
                     </div>
                 </div>
                 <ul class="users-list">
-                    <ul class="users-list__head-row">
-                        <li class="users-list__cell">Id</li>
-                        <li class="users-list__cell">Date</li>
-                        <li class="users-list__cell">Nick</li>
-                        <li class="users-list__cell">Email</li>
+                    <ul class="users-list__head-row" v-on:click="activateFilter($event)">
+                        <li class="users-list__cell">
+                            <span class="users-list__cell-text">Id</span>
+                            <div class="users-list__filter-buttons">
+                                <i class="material-icons users-list__filter-button" id="1"
+                                   v-on:click="filterDrivers('id', 'up', $event)">arrow_drop_up</i>
+                                <i class="material-icons users-list__filter-button" id="2"
+                                   v-on:click="filterDrivers('id', 'down', $event)">arrow_drop_down</i>
+                            </div>
+                        </li>
+                        <li class="users-list__cell">
+                            <span class="users-list__cell-text">Date</span>
+                            <div class="users-list__filter-buttons">
+                                <i class="material-icons users-list__filter-button" id="3"
+                                   v-on:click="filterDrivers('birthday', 'up', $event)">arrow_drop_up</i>
+                                <i class="material-icons users-list__filter-button" id="4"
+                                   v-on:click="filterDrivers('birthday', 'down', $event)">arrow_drop_down</i>
+                            </div>
+                        </li>
+                        <li class="users-list__cell">
+                            <span class="users-list__cell-text">Nick</span>
+                            <div class="users-list__filter-buttons">
+                                <i class="material-icons users-list__filter-button" id="5"
+                                   v-on:click="filterDrivers('name', 'up', $event)">arrow_drop_up</i>
+                                <i class="material-icons users-list__filter-button" id="6"
+                                   v-on:click="filterDrivers('name', 'down', $event)">arrow_drop_down</i>
+                            </div>
+                        </li>
+                        <li class="users-list__cell">
+                            <span class="users-list__cell-text">Email</span>
+                            <div class="users-list__filter-buttons">
+                                <i class="material-icons users-list__filter-button" id="7"
+                                   v-on:click="filterDrivers('email', 'up', $event)">arrow_drop_up</i>
+                                <i class="material-icons users-list__filter-button" id="8"
+                                   v-on:click="filterDrivers('email', 'down', $event)">arrow_drop_down</i>
+                            </div>
+                        </li>
                         <li class="users-list__cell">Allow Spam</li>
                     </ul>
                     <span class="main-content__loading" v-if="loading">
@@ -35,19 +61,21 @@ define(["Vue", "lodash", "../pagination/pagination"], function (Vue, _, Paginati
                     </span>
                     <ul class="users-list__row" v-for="(key,index) in onUpdateUsers" v-if="!loading">
                         <li class="users-list__id users-list__cell">
-                            {{ key.number_1 }}
+                            {{ key.id }}
                         </li>
                         <li class="users-list__date users-list__cell">
                             {{ key.birthday }}
                         </li>
                         <li class="users-list__nick users-list__cell">
                             {{ key.firstname }}
+                            {{ key.lastname }}
+                            {{ key.primaryname }}
                         </li>
                         <li class="users-list__email users-list__cell">
-                            {{ key.lastname }}
+                            {{ key.email }}
                         </li>
                         <li class="users-list__spam users-list__cell">
-                            {{ key.primaryname }}
+                            {{ key.spam }}
                         </li>
                     </ul>
                 </ul>
@@ -58,21 +86,12 @@ define(["Vue", "lodash", "../pagination/pagination"], function (Vue, _, Paginati
             Pagination: Pagination
         },
         methods: {
-            updateUsersQty: _.debounce(
-                function () {
-                    this.$store.dispatch("getUsers",
-                        {
-                            qty: this.Quantity,
-                            page: this.PageNumber
-                        });
-                },
-                500
-            ),
             searchUsers: _.debounce(
                 function () {
                     this.$store.dispatch("search",
                         {
-                            search: this.Search
+                            search: this.Search,
+                            page: this.PageNumber
                         })
                 },
                 500
@@ -80,41 +99,49 @@ define(["Vue", "lodash", "../pagination/pagination"], function (Vue, _, Paginati
             getUsers: function () {
                 this.$store.dispatch("getUsers",
                     {
-                        qty: this.Quantity,
                         page: this.PageNumber
                     });
             },
-            showAllUsers: function() {
-                this.loading = true;
-                let that = this;
-                this.$store.dispatch("getAllUsers");
+            filterDrivers: function (name, direction, event) {
+                let id = event.target.getAttribute("id");
+                    input = {
+                        sortType: name,
+                        sortDirection: direction,
+                        id: id
+                    };
+                this.$store.dispatch("filterDrivers", input);
+            },
+            activateFilter: function (event) {
+                let elem = event.target;
+                let filter = document.getElementsByClassName("users-list__filter-button");
+
+                if (elem.classList.contains("users-list__filter-button")) {
+                    if (elem.classList.contains("is-active-filter")) {
+                        return 1;
+                    } else {
+                        for (let i = 0; i < filter.length; i++) {
+                            if (filter[i].classList.contains("is-active-filter")) {
+                                filter[i].classList.remove("is-active-filter");
+                            }
+                        }
+                        elem.classList.add("is-active-filter");
+                    }
+                } else {
+                    return 0;
+                }
+            },
+            checkActiveFilter: function () {
+                let filters = document.getElementsByClassName("users-list__filter-button");
+                for (let i = 0; i < filters.length; i++) {
+                    if (+this.activeFilter === +filters[i].getAttribute("id")) {
+                        filters[i].classList.add("is-active-filter");
+                    }
+                }
             }
         },
         computed: {
             onUpdateUsers: function () {
                 return this.$store.getters.getUsers;
-            },
-            Quantity: {
-                get() {
-                    return this.$store.state.perPage;
-                },
-                set(value) {
-                    if (value === "" || value === undefined) {
-                        console.log("empty input");
-
-                    } else if (typeof value === "string" && value !== "") {
-                        if (isNaN(value)) {
-                            console.log("this is not a number, returning to default");
-                        } else {
-                            if (parseInt(value) === this.$store.getters.getPerPage) {
-                                this.$store.commit("setWhatever", {type: "perPage", item: parseInt(value)});
-                                this.getUsers();
-                            } else {
-                                this.$store.commit("setWhatever", {type: "perPage", item: parseInt(value)});
-                            }
-                        }
-                    }
-                }
             },
             loading: {
                 get() {
@@ -126,20 +153,21 @@ define(["Vue", "lodash", "../pagination/pagination"], function (Vue, _, Paginati
                     return this.$store.state.currentPage;
                 }
             },
-            Search : {
-                get () {
+            Search: {
+                get() {
                     return this.$store.state.search;
                 },
                 set(input) {
                     this.$store.commit("setWhatever", {type: "search", item: input});
                 }
+            },
+            activeFilter: {
+                get() {
+                    return this.$store.state.filter.activeFilter;
+                }
             }
         },
         watch: {
-            Quantity: function (numberOfUsers) {
-                console.log("Waiting for the end of input...");
-                this.updateUsersQty();
-            },
             Search: function (input) {
                 console.log("Waiting for the end of input...");
                 this.searchUsers();
@@ -151,10 +179,12 @@ define(["Vue", "lodash", "../pagination/pagination"], function (Vue, _, Paginati
             } else {
                 this.$store.dispatch("getUsers",
                     {
-                        qty: this.Quantity,
                         page: this.PageNumber
                     });
             }
+        },
+        mounted() {
+            this.checkActiveFilter();
         }
     }
 });

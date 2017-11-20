@@ -17,13 +17,15 @@ insert into bootstrap_users_seq(value) values(0);
 drop table if exists bootstrap_users;
 create table bootstrap_users(
     id bigint primary key,
-    date_added date time not null,
-    nick text not null,
+    birthday text not null,
+    firstname text not null,
+    lastname text not null,
+    primaryname text not null,
     email text not null,
     allow_spam integer not null
 );
 
 -- indices
-create index bootstrap_users__nick_idx on bootstrap_users (nick);
+create index bootstrap_users__fio_idx on bootstrap_users (firstname, lastname, primaryname);
 
 commit;
