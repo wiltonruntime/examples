@@ -1,0 +1,18 @@
+[submodule "docroot/lib/vue"]
+	path = docroot/lib/vue
+	url = https://github.com/vuejs/vue.git
+[submodule "docroot/lib/vuex"]
+	path = docroot/lib/vuex
+	url = https://github.com/vuejs/vuex.git
+[submodule "docroot/lib/vue-router"]
+	path = docroot/lib/vue-router
+	url = https://github.com/vuejs/vue-router.git
+[submodule "docroot/lib/axios"]
+	path = docroot/lib/axios
+	url = https://github.com/axios/axios.git
+[submodule "docroot/lib/requirejs"]
+	path = docroot/lib/requirejs
+	url = https://github.com/requirejs/requirejs.git
+[submodule "docroot/lib/lodash"]
+	path = docroot/lib/lodash
+	url = https://github.com/lodash/lodash.git

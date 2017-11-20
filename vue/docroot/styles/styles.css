@@ -1,0 +1,37 @@
+@import "reset.css";
+@import "../components/app/app.css";
+@import "../components/description/description.css";
+@import "../components/addUser/addUser.css";
+@import "../components/usersList/usersList.css";
+@import "../components/aboutWilton/aboutWilton.css";
+@import "../components/pagination/pagination.css";
+
+* {
+    color: black;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+a {
+    outline: none;
+    text-decoration: none;
+}
+
+ul {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+    padding: 0;
+}
+
