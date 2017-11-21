@@ -5,9 +5,10 @@ define([
     "validator/lib/isEmail",
     "wilton/Logger",
     "../conf",
+    "../db",
     "../components/LeftMenu",
     "../models/user"
-], function(module, isEmpty, isEmail, Logger, conf, LeftMenu, user) {
+], function(module, isEmpty, isEmail, Logger, conf, db, LeftMenu, user) {
     "use strict";
     var logger = new Logger(module.id);
 
@@ -36,10 +37,12 @@ define([
                     errors: errors
                 });
             } else {
-                form.id = user.id();
                 form.spam = form.hasOwnProperty("spam");
                 logger.info("Saving user: [" + JSON.stringify(form, null, 4) + "]");
-                user.save(form);
+                db.doInSyncTransaction(conf.dbUrl, function() {
+                    form.id = user.id();
+                    user.save(form);
+                });
                 req.sendRedirect("/bootstrap/views/usersList");
             }
         }

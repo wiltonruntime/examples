@@ -65,13 +65,15 @@ define([
 
             // init db using lazy-load deps
             require([
+                "bootstrap/db",
                 "bootstrap/models/schema",
-                "bootstrap/models/user",
-                "bootstrap/models/conn"
-            ], function(schema, user, conn) {
+                "bootstrap/models/user"
+            ], function(db, schema, user) {
                 schema.create();
-                user.insertDummyRecords();
-                conn.close();
+                db.doInSyncTransaction(conf.dbUrl, function() {
+                    user.insertDummyRecords();
+                });
+                db.close();
             });
 
             // start server

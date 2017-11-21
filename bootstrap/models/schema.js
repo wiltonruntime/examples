@@ -3,8 +3,8 @@ define([
     "module",
     "wilton/loader",
     "wilton/Logger",
-    "./conn"
-], function(module, loader, Logger, conn) {
+    "../db"
+], function(module, loader, Logger, db) {
     "use strict";
     var logger = new Logger(module.id);
     
@@ -12,7 +12,7 @@ define([
         create: function() {
             var sqlPath = loader.findModulePath(module.id + ".sql");
             logger.info("Creating DB schema ...");
-            var count = conn.executeFile(sqlPath);
+            var count = db.executeFile(sqlPath);
             logger.info("DB schema created, statements executed: [" + count + "]");
         }
     };

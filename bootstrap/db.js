@@ -1,7 +1,7 @@
 
 define([
     "wilton/DBConnection",
-    "../conf"
+    "./conf"
 ], function(DBConnection, conf) {
     "use strict";
     
