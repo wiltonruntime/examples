@@ -1,11 +1,13 @@
 
 define([
+    "module",
     "wilton/loader",
     "wilton/Logger",
     "wilton/misc",
     "wilton/Server"
-], function(loader, Logger, misc, Server) {
+], function(module, loader, Logger, misc, Server) {
     "use strict";
+    var logger = new Logger(module.id);
 
     return {
         main: function() {
@@ -25,6 +27,7 @@ define([
                     cacheMaxAgeSeconds: 0
                 }]
             });
+            logger.info("Test server started, open in browser: http://127.0.0.1:8080/")
             misc.waitForSignal();
             server.stop();
         }
