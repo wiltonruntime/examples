@@ -1,5 +1,5 @@
 /*
- * Copyright 2017, alex at staticlibs.net
+ * Copyright 2018, alex at staticlibs.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,14 @@
  */
 
 define([
+    "module",
     "wilton/Logger",
-    "wilton/Server",
-    "wilton/thread"
-], function(Logger, Server, thread) {
+    "wilton/misc",
+    "wilton/Server"
+], function(module, Logger, misc, Server) {
     "use strict";
 
-    var logger = new Logger("server.main");
+    var logger = new Logger(module.id);
 
     return {
         main: function() {
@@ -29,19 +30,18 @@ define([
             var server = new Server({
                 tcpPort: 8080,
                 views: [
-                    "server/views/hi",
-                    "server/views/bye"
+                    "auth/views/login",
+                    "auth/views/restricted"
+                ],
+                filters: [
+                    "auth/authFilter"
                 ]
             });
-
-            // http://127.0.0.1:8080/server/views/hi?foo=41&bar=42
-
-            for(;;) {
-                logger.info("Server is running ...");
-                thread.sleepMillis(5000);
-            }
-
+            logger.info("Server started on port: [8080]");
+            misc.waitForSignal();
+            logger.info("Shutting down ...");
             server.stop();
+            logger.info("Server stopped");
         }
     };
 });
