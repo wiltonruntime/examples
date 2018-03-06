@@ -142,7 +142,8 @@ define([
     "concat-stream/test/typedarray",
     "string-to-stream/test/basic",
     "process-nextick-args/test",
-    "spark-md5/test/specs"
+    "spark-md5/test/specs",
+    "xml-js/runAllTests"
 ], function() {
 });
 

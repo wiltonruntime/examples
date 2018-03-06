@@ -84,6 +84,7 @@ define([
     "url",
     "validator/lib/isAlphanumeric",
     "weak-map",
+    "xml-js",
     "xml-writer",
     "xregexp"
 ], function() {
