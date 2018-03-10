@@ -143,7 +143,8 @@ define([
     "string-to-stream/test/basic",
     "process-nextick-args/test",
     "spark-md5/test/specs",
-    "xml-js/runAllTests"
+    "xml-js/runAllTests",
+    "uglify-js/test/min-process"
 ], function() {
 });
 

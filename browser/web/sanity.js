@@ -77,6 +77,7 @@ define([
     "tinycolor",
     "trampa",
     "typedarray",
+    "uglify-js",
     "unicode-escape",
     "typify-parser",
     "utf8",
