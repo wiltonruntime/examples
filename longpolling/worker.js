@@ -15,16 +15,22 @@
  */
 
 define([
+    // modules
     "module",
     "lodash/filter",
     "lodash/forEach",
     "lodash/isNil",
     "lodash/isNumber",
     "moment",
+    // wilton
     "wilton/Channel",
+    "wilton/DelayedResponse",
     "wilton/Logger",
     "wilton/wiltoncall"
-], function(module, filter, forEach, isNil, isNumber, moment, Channel, Logger, wiltoncall) {
+], function(
+        module, filter, forEach, isNil, isNumber, moment, //modules
+        Channel, DelayedResponse, Logger, wiltoncall // wilton
+) {
     "use strict";
 
     var logger = new Logger(module.id);
@@ -45,10 +51,7 @@ define([
                         el.ttl -= 1000;
                         if (el.ttl <= 0) {
                             logger.info("Sending response ...");
-                            wiltoncall("request_send_with_response_writer", {
-                                responseWriterHandle: el.writerHandle,
-                                data: "Hi from server!"
-                            });
+                            el.resp.send("Hi from server!");
                             logger.info("Response sent");
                             return false;
                         }
@@ -60,18 +63,19 @@ define([
                     if (!isNil(msg.poisoned)) {
                         logger.info("Stopping worker ...");
                         forEach(queue, function(el) {
-                            wiltoncall("request_send_with_response_writer", {
-                                responseWriterHandle: el.writerHandle,
-                                data: "Server shutdown!"
-                            });
+                            el.resp.send("Server shutdown!");
                         });
                         break;
                     }
-                    if (!isNumber(msg.ttl) || !isNumber(msg.writerHandle)) {
+                    if (!isNumber(msg.ttl) || !isNumber(msg.handle)) {
                         logger.error("Invalid message received: [" + JSON.stringify(msg, null, 4) + "]");
                     }
+                    var el = {
+                        ttl: msg.ttl,
+                        resp: new DelayedResponse(msg.handle)
+                    };
                     logger.info("Message received");
-                    queue.push(msg);
+                    queue.push(el);
                 }
             }
             logger.info("Worker stopped");

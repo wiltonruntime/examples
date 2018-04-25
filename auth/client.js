@@ -18,9 +18,9 @@ define([
     "assert",
     "moment",
     "pwdauth/createPasswordHash",
-    "pwdauth/createRequestHash",
+    "pwdauth/createRequest",
     "wilton/httpClient"
-], function(assert, moment, createPasswordHash, createRequestHash, http) {
+], function(assert, moment, createPasswordHash, createRequest, http) {
     "use strict";
 
     return {
@@ -34,16 +34,17 @@ define([
             assert.equal(resp403.responseCode, 403);
 
             // login
-            var userId = "foo";
-            var pwdClear = "secret1";
-            var pwdHash = createPasswordHash(userId, pwdClear);
-            var timestamp = moment();
+            var userId = "login1";
+            var pwdClear = "password1";
+            var pwdHash = createPasswordHash(pwdClear, userId);
+            var tokenRequest = createRequest(
+                '/auth',
+                userId,
+                pwdHash,
+                moment().format()
+            );
             var respLogin = http.sendRequest("http://127.0.0.1:8080/auth/views/login", {
-                data: {
-                    userid: "foo",
-                    timestamp: timestamp.format(),
-                    hash: createRequestHash(userId, pwdHash, timestamp)
-                }
+                data: tokenRequest
             });
             assert.equal(respLogin.responseCode, 200);
             var token = respLogin.json();

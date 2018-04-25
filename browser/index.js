@@ -28,7 +28,9 @@ define([
         main: function() {
             Logger.initConsole("INFO");
             var server = new Server({
-                views: [],
+                views: [
+//                    "browser/views/httpClientView"
+                ],
                 rootRedirectLocation: "/web/index.html",
                 documentRoots: [{
                     resource: "/web/",

@@ -85,6 +85,7 @@ define([
     "url",
     "validator/lib/isAlphanumeric",
     "weak-map",
+    "wilton/web/httpClient",
     "xml-js",
     "xml-writer",
     "xregexp"

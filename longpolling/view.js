@@ -28,13 +28,10 @@ define([
     return {
         GET: function(req) {
             logger.info("Receiving request ...");
-            var json = wiltoncall("request_send_later", {
-                requestHandle: req.handle
-            });
-            var obj = JSON.parse(json);
+            var handle = req.sendResponseLater();
             logger.info("Enqueing request ...");
             chan.send({
-                writerHandle: obj.responseWriterHandle,
+                handle: handle,
                 ttl: 30000
             });
             logger.info("Request enqueued");

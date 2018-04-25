@@ -15,30 +15,34 @@
  */
 
 define([
-    "module",
-    "wilton/Logger",
-    "lodash/includes"
-], function(module, Logger, includes) {
+    "wilton/thread"
+], function(thread) {
     "use strict";
 
-    var logger = new Logger(module.id);
-    
     return {
         GET: function(req) {
-            if(!includes(req.headers().myappPrivileges, "bar1")) {
-                logger.warn("Unauthorised request attempt!");
-                req.sendResponse("", {
+            var action = req.headers()["X-Test-Action"];
+            if ("fail" === action) {
+                req.sendResponse("failresp", {
                     meta: {
-                        statusCode: 403,
-                        statusMessage: "Forbidden"
+                        statusCode: 500,
+                        statusMessage: "fail"
                     }
                 });
-                return;
+            } else if ("timeout" === action) {
+                thread.sleepMillis(1000);
+                req.sendResponse("timeout");
+            } else if ("json" === action) {
+                req.sendResponse({
+                    foo: 42
+                });
+            } else {
+                req.sendResponse("OK");
             }
-            logger.info("Restricted resource accessed by user: [" + req.headers().myappUserId + "]");
-            req.sendResponse({
-                message: "restricted data"
-            });
+        },
+
+        POST: function(req) {
+            req.sendResponse(req.data());
         }
     };
 });

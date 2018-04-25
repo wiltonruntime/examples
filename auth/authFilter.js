@@ -22,20 +22,19 @@ define([
     "wilton/Logger",
     // pwdauth
     "pwdauth/authorize",
-    "pwdauth/createTokenHash",
     // local
-    "./loadUser"
+    "./userLoader"
 ], function(
         module, isNil, isString, Logger, //modules
-        authorize, createTokenHash, // pwdauth
-        loadUser // local
+        authorize, // pwdauth
+        userLoader // local
 ) {
     "use strict";
 
     var logger = new Logger(module.id);
 
     function auth(token) {
-        return authorize(loadUser, createTokenHash, token);
+        return authorize(userLoader.loadByToken, token);
     }
 
     return function(req, doFilter) {
@@ -58,9 +57,9 @@ define([
             return;
         }
         var token = JSON.parse(req.headers().Authorization);
-        var roles = auth(token);
-        if (!isNil(roles.error)) {
-            logger.warn("Invalid access attempt, error: [" + roles.error + "]");
+        var authResult = auth(token);
+        if (!isNil(authResult.error)) {
+            logger.warn("Invalid access attempt, error: [" + authResult.error + "]");
             req.sendResponse("", {
                 meta: {
                     statusCode: 403,
@@ -71,8 +70,8 @@ define([
         }
 
         // pass checked request
-        req.headers().myappUserId = token.userid;
-        req.headers().myappRoles = roles;
+        req.headers().myappUserId = authResult.id;
+        req.headers().myappPrivileges = authResult.rights;
         doFilter(req);
     };
 });

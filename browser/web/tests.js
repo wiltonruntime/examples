@@ -144,7 +144,8 @@ define([
     "process-nextick-args/test",
     "spark-md5/test/specs",
     "xml-js/runAllTests",
-    "uglify-js/test/min-process"
+    "uglify-js/test/min-process",
+    "./httpClientTest"
 ], function() {
 });
 
