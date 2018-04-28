@@ -110,6 +110,11 @@ define([
                     resource: "/web",
                     dirPath: loader.findModulePath("bootstrap/web"),
                     cacheMaxAgeSeconds: 0
+                },
+                {
+                    resource: "/stdlib/",
+                    zipPath: appdir + "std.wlib",
+                    cacheMaxAgeSeconds: 0
                 }]
             });
             logger.info("Server started: http://127.0.0.1:8080/" );

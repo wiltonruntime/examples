@@ -8,79 +8,87 @@
         <div class="container">
             {{> topPanel}}
 
-            <div class="col-sm-3">
-                <div class="list-group">
-                    {{> LeftMenu}}
-                </div>
-            </div>
-
-            <div class="col-sm-9">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">User List</h3>
+            <div class="row">
+                <div class="col-3">
+                    <div class="list-group">
+                        {{> LeftMenu}}
                     </div>
-                    <div class="panel-body">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <form id="filter" method="get">
-                                        <div class="col-sm-5">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Nick</span>
-                                                <input id="nick" name="nick" type="text" class="form-control" value="{{nick}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">Email</span>
-                                                <input id="email" name="email" type="text" class="form-control" value="{{email}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <button type="submit" class="btn btn-primary">Filter</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                </div>
+
+                <div class="col-9">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <span class="font-weight-bold">User List</span>
                         </div>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th><a href="{{sortUrl}}sortval=id&sortdir={{sortdirInverted}}">
-                                            {{{sortArrow.id}}} ID
-                                        </a>
-                                    </th>
-                                    <th><a href="{{sortUrl}}sortval=dateAdded&sortdir={{sortdirInverted}}">
-                                            {{{sortArrow.dateAdded}}} Date
-                                        </a>
-                                    </th>
-                                    <th><a href="{{sortUrl}}sortval=nick&sortdir={{sortdirInverted}}">
-                                            {{{sortArrow.nick}}} Nick
-                                        </a>
-                                    </th>
-                                    <th><a href="{{sortUrl}}sortval=email&sortdir={{sortdirInverted}}">
-                                            {{{sortArrow.email}}} Email
-                                        </a>
-                                    </th>
-                                    <th><a href="{{sortUrl}}sortval=spam&sortdir={{sortdirInverted}}">
-                                            {{{sortArrow.spam}}} allowSpam
-                                        </a>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{#users}}
-                                <tr>
-                                    <td>{{id}}</td>
-                                    <td>{{dateAdded}}</td>
-                                    <td>{{nick}}</td>
-                                    <td>{{email}}</td>
-                                    <td>{{spam}}</td>
-                                </tr>
-                                {{/users}}
-                            </tbody>
-                        </table>
-                        {{> pagination}}
+                        <div class="card-body">
+                            <form id="filter" method="get">
+                                <div class="row">
+                                    <div class="col-5 form-group">
+                                        <label for="nick" class="sr-only">Nick</label>
+                                        <input id="nick" name="nick" type="text" class="form-control" value="{{nick}}">
+                                    </div>
+                                    <div class="col-5 form-group">
+                                        <label for="nick" class="sr-only">Email</label>
+                                        <input id="email" name="email" type="text" class="form-control" value="{{email}}">
+                                    </div>
+                                    <div class="col2">
+                                        <button type="submit" class="btn btn-secondary">Filter</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <a
+                                                class="text-secondary"
+                                                href="{{sortUrl}}sortval=id&sortdir={{sortdirInverted}}">
+                                                {{{sortArrow.id}}} ID
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a
+                                                class="text-secondary"
+                                                href="{{sortUrl}}sortval=dateAdded&sortdir={{sortdirInverted}}">
+                                                {{{sortArrow.dateAdded}}} Date
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a
+                                                class="text-secondary"
+                                                href="{{sortUrl}}sortval=nick&sortdir={{sortdirInverted}}">
+                                                {{{sortArrow.nick}}} Nick
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a
+                                                class="text-secondary"
+                                                href="{{sortUrl}}sortval=email&sortdir={{sortdirInverted}}">
+                                                {{{sortArrow.email}}} Email
+                                            </a>
+                                        </th>
+                                        <th><a
+                                                class="text-secondary"
+                                                href="{{sortUrl}}sortval=spam&sortdir={{sortdirInverted}}">
+                                                {{{sortArrow.spam}}} allowSpam
+                                            </a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#users}}
+                                    <tr>
+                                        <td>{{id}}</td>
+                                        <td>{{dateAdded}}</td>
+                                        <td>{{nick}}</td>
+                                        <td>{{email}}</td>
+                                        <td>{{spam}}</td>
+                                    </tr>
+                                    {{/users}}
+                                </tbody>
+                            </table>
+                            {{> pagination}}
+                        </div>
                     </div>
                 </div>
             </div>
