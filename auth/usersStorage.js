@@ -19,16 +19,26 @@ define([
 ], function(createPasswordHash) {
     "use strict";
 
-    return function(userId) {
-        // DB access logic or cache lookup is implied here
-        if ("foo" === userId){
-            return {
-                pwdHash: createPasswordHash("foo", "secret1"),
-                sessionKey: "boo",
-                sessionDurationMinutes: 42,
-                roles: ["foo1", "bar1"]
-            };
-        }
-        return null;
+    // DB with a "slow" access can be used here
+    // loadById is called only during the initial authentication
+    var storage = {};
+
+    // pre-populate a user
+
+    storage["login1"] = {
+        id: "login1",
+        pwdHash: createPasswordHash("password1", "login1"),
+        role: "admin",
+        rights: ["foo1", "bar1"]
+    };
+
+    // DB access functions
+
+    function loadById(userId) {
+        return storage[userId];
+    }
+
+    return {
+        loadById: loadById
     };
 });

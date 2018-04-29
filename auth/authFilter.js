@@ -23,18 +23,18 @@ define([
     // pwdauth
     "pwdauth/authorize",
     // local
-    "./userLoader"
+    "./sessionManager"
 ], function(
         module, isNil, isString, Logger, //modules
         authorize, // pwdauth
-        userLoader // local
+        sessionManager // local
 ) {
     "use strict";
 
     var logger = new Logger(module.id);
 
     function auth(token) {
-        return authorize(userLoader.loadByToken, token);
+        return authorize(sessionManager.loadByKey, token);
     }
 
     return function(req, doFilter) {

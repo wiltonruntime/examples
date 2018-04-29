@@ -38,7 +38,7 @@ define([
             var pwdClear = "password1";
             var pwdHash = createPasswordHash(pwdClear, userId);
             var tokenRequest = createRequest(
-                '/auth',
+                "/auth/views/login",
                 userId,
                 pwdHash,
                 moment().format()

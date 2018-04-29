@@ -19,34 +19,25 @@ define([
     "module",
     "lodash/includes",
     "lodash/isNil",
-    "moment",
-    "random",
     "wilton/Logger",
     // pwdauth
     "pwdauth/authErrors",
     "pwdauth/authenticate",
     "pwdauth/createRequest",
     // local
-    "../userLoader"
+    "../sessionManager",
+    "../usersStorage"
 ], function(
-        module, includes, isNil, moment, random, Logger, //modules
+        module, includes, isNil, Logger, //modules
         authErrors, authenticate, createRequest, // pwdauth
-        userLoader // local
+        sessionManager, usersStorage // local
 ) {
     "use strict";
 
     var logger = new Logger(module.id);
-    var engine = random.engines.mt19937().autoSeed();
-
-    function createToken(user, request) {
-        user.sessionKey = random.uuid4(engine);
-        user.sessionStartTime = moment().format();
-        //logger: created $token for $user by $request
-        return user.sessionKey;
-    }
 
     function auth(request) {
-        return authenticate(userLoader.loadById, createRequest, createToken, request);
+        return authenticate(usersStorage.loadById, createRequest, sessionManager.createSession, request);
     }
     
     return {
