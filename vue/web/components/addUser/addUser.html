@@ -3,6 +3,84 @@
         <span class="font-weight-bold">Add User</span>
     </div>
     <div class="card-body">
-        Add User [TODO]
+        <div 
+            class="alert alert-danger"
+            role="alert"
+            v-if="statusError">
+            Error saving user
+        </div>
+        <div 
+            class="alert alert-success"
+            role="alert"
+            v-else-if="statusSuccess">
+            User saved successfully
+        </div>
+        <div 
+            class="alert alert-info"
+            role="alert"
+            v-else-if="statusProgress">
+            Saving user ...
+        </div>
+        <div 
+            class="alert alert-light"
+            role="alert"
+            v-else>
+            Add new user to the users list
+        </div>
+        <form v-on:submit.prevent="save">
+            <div class="form-group row ">
+                <label class="col-2" for="nick">Nickname</label>
+                <div class="col-10">
+                    <input
+                        id="nick"
+                        name="nick"
+                        type="text"
+                        placeholder="Enter nickname"
+                        v-bind:class="{ 'form-control': true, 'is-invalid': errors.nick }"
+                        v-model.trim="user.nick"
+                        v-bind:disabled="statusProgress">
+                    <span class="invalid-feedback">{{errors.nick}}</span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-2" for="email">Email</label>
+                <div class="col-10">
+                    <input
+                        id="email"
+                        name="email"
+                        type="text"
+                        placeholder="Enter email"
+                        v-bind:class="{ 'form-control': true, 'is-invalid': errors.email }"
+                        v-model.trim="user.email"
+                        v-bind:disabled="statusProgress">
+                    <span class="invalid-feedback">{{errors.email}}</span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="offset-2 col-10">
+                    <div class="checkbox">
+                        <label>
+                            <input
+                                id="spam"
+                                name="spam"
+                                type="checkbox"
+                                v-model="user.spam"
+                                v-bind:disabled="statusProgress">
+                            Allow spam
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="offset-2 col-10">
+                    <button
+                        type="submit"
+                        class="btn btn-secondary"
+                        v-bind:disabled="statusProgress">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </form> 
     </div>
 </div>

@@ -15,11 +15,43 @@
  */
 
 define([
+    "lodash/cloneDeep",
+    "lodash/keys",
     "text!./addUser.html"
-], function (template) {
+], function (cloneDeep, keys, template) {
     "use strict";
 
     return {
-        template: template
+        template: template,
+
+        data: function() {
+            return {
+                user: cloneDeep(this.$store.state.userForm.userEmpty)
+            };
+        },
+
+        computed: {
+            statusError: function() {
+                return "error" === this.$store.state.userForm.status;
+            },
+
+            statusProgress: function() {
+                return "progress" === this.$store.state.userForm.status;
+            },
+
+            statusSuccess: function() {
+                return "success" === this.$store.state.userForm.status;
+            },
+
+            errors: function() {
+                return this.$store.state.userForm.errors;
+            }
+        },
+
+        methods: {
+            save: function() {
+                this.$store.dispatch('userForm/saveUser', this.user);
+            }
+        }
     };
 });

@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-define(function(require) {
+define([
+    "lodash/cloneDeep",
+    "lodash/forEach",
+    "lodash/keys",
+    "vue"
+], function(cloneDeep, forEach, keys, Vue) {
     "use strict";
 
-    var Vue = require("vue");
-    var Vuex = require("vuex");
+    return function(state, user) {
+        // show success badge
+        state.status = "success";
 
-    Vue.use(Vuex);
-
-    return new Vuex.Store({
-        strict: true,
-
-        modules: {
-            userForm: require("./modules/userForm/index")
-        }
-
-    });
+        // clear fields
+        var klist = keys(state.userEmpty);
+        forEach(klist, function(key) {
+            Vue.set(user, key, cloneDeep(state.userEmpty[key]));
+        });
+    };
 });

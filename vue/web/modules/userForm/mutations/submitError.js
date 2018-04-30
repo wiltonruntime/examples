@@ -14,20 +14,15 @@
  * limitations under the License.
  */
 
-define(function(require) {
+define([
+], function() {
     "use strict";
 
-    var Vue = require("vue");
-    var Vuex = require("vuex");
+    return function(state, errors) {
+        // unlock form
+        state.status = "error";
 
-    Vue.use(Vuex);
-
-    return new Vuex.Store({
-        strict: true,
-
-        modules: {
-            userForm: require("./modules/userForm/index")
-        }
-
-    });
+        // show validation errors
+        state.errors = errors;
+    };
 });

@@ -17,17 +17,30 @@
 define(function(require) {
     "use strict";
 
-    var Vue = require("vue");
-    var Vuex = require("vuex");
+    return {
+        namespaced: true,
 
-    Vue.use(Vuex);
+        state: {
 
-    return new Vuex.Store({
-        strict: true,
+            userEmpty: {
+                nick: "",
+                email: "",
+                spam: false
+            },
 
-        modules: {
-            userForm: require("./modules/userForm/index")
+            status: "",
+
+            errors: { }
+        },
+
+        mutations: {
+            submitStart: require("./mutations/submitStart"),
+            submitSuccess: require("./mutations/submitSuccess"),
+            submitError: require("./mutations/submitError")
+        },
+
+        actions: {
+            saveUser: require("./actions/saveUser")
         }
-
-    });
+    };
 });

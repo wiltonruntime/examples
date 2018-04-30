@@ -19,10 +19,12 @@ define(function(require) {
 
     var Vue = require("vue");
     var VueRouter = require("vue-router");
-    
+
     Vue.use(VueRouter);
 
     return new VueRouter({
+        linkActiveClass: "list-group-item-secondary",
+        linkExactActiveClass: "list-group-item-secondary",
         routes: [
             { path: "/", redirect: "/description" },
             { path: "/description", component: require("./components/description/description") },

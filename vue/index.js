@@ -31,6 +31,8 @@ define([
         return {
             dbUrl: "sqlite://" + appdir + "vueExample.db",
             tablePageSize: 8,
+            requestTimeoutMillis: 3000,
+            debounceWaitMillis: 500,
             sortArrow: {
                 asc: "&uarr;",
                 desc: "&darr;"
