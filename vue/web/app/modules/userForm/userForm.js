@@ -17,6 +17,8 @@
 define(function(require) {
     "use strict";
 
+    var formStates = require("./formStates");
+
     return {
         namespaced: true,
 
@@ -28,15 +30,18 @@ define(function(require) {
                 spam: false
             },
 
-            status: "",
+            formState: formStates.INITIAL,
 
-            errors: { }
+            validationMessages: { },
+
+            submitError: ""
         },
 
         mutations: {
-            submitStart: require("./mutations/submitStart"),
+            submitError: require("./mutations/submitError"),
+            submitInProgress: require("./mutations/submitInProgress"),
             submitSuccess: require("./mutations/submitSuccess"),
-            submitError: require("./mutations/submitError")
+            validationFailed: require("./mutations/validationFailed")
         },
 
         actions: {

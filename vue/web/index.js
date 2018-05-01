@@ -14,18 +14,54 @@
  * limitations under the License.
  */
 
-define([
-    "vue",
-    "./app/router",
-    "./app/store",
-    "./app/app"
-], function(Vue, router, store, app) {
-    "use strict";
+// top level define required because enforceDefine is used
 
-    new Vue({
-        el: '#root',
-        router: router,
-        store: store,
-        template: "<App/>"
+define([], function() {
+
+    // requirejs config, adjust as needed
+    requirejs.config({
+        baseUrl: "/stdlib/",
+        enforceDefine: true,
+        nodeIdCompat: true,
+        waitSeconds: 15,
+        paths: {
+            "app": "/web/app"
+        },
+        // these plugins are used to load wilton-packages.json
+        packages: [
+            {name: "text", main: "text"},
+            {name: "json", main: "json"}
+        ]
+    });
+
+    // load packages config and compat globals
+    require(["json!wilton-requirejs/wilton-packages.json",
+            "wilton-requirejs/compatGlobals"], function(packages) {
+
+        // complete config
+        requirejs.config({
+            packages: packages
+        });
+
+        // init buffer
+        require(["buffer"], function(buffer) {
+            // set global compat Buffer
+            Buffer = buffer.Buffer;
+
+            // start app
+            require([
+                "vue",
+                "app/router",
+                "app/store",
+                "app/app"
+            ], function(Vue, router, store, app) {
+                new Vue({
+                    el: '#root',
+                    router: router,
+                    store: store,
+                    template: "<App/>"
+                });
+            });
+        });
     });
 });

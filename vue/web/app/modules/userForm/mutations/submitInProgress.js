@@ -15,18 +15,21 @@
  */
 
 define([
-    "lodash/isNil",
+    "lodash/forEach",
+    "lodash/keys",
     "vue",
     "../formStates"
-], function(isNil, Vue, formStates) {
+], function(forEach, keys, Vue, formStates) {
     "use strict";
 
-    return function(state, error) {
-        // unlock form
-        Vue.set(state, "formState", formStates.SUBMIT_ERROR);
+    return function(state) {
+        // hide validation messages
+        var klist = keys(state.validationMessages);
+        forEach(klist, function(key) {
+            Vue.delete(state.validationMessages, key);
+        });
 
-        // show error alert
-        var msg = !isNil(error) ? error : "Submit error";
-        Vue.set(state, "submitError", "ERROR: " + msg);
+        // set status
+        Vue.set(state, "formState", formStates.SUBMIT_IN_PROGRESS);
     };
 });

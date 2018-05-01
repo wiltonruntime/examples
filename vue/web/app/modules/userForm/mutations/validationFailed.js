@@ -15,20 +15,16 @@
  */
 
 define([
-    "lodash/forEach",
-    "lodash/keys",
-    "vue"
-], function(forEach, keys, Vue) {
+    "vue",
+    "../formStates"
+], function(Vue, formStates) {
     "use strict";
 
-    return function(state) {
-        // hide validation messages
-        var klist = keys(state.errors);
-        forEach(klist, function(key) {
-            Vue.delete(state.errors, key);
-        });
+    return function(state, errors) {
+        // unlock form
+        Vue.set(state, "formState", formStates.VALIDATION_FAILED);
 
-        // set status
-        state.status = "progress";
+        // show validation errors
+        Vue.set(state, "validationMessages", errors);
     };
 });

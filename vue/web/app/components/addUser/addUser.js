@@ -17,8 +17,9 @@
 define([
     "lodash/cloneDeep",
     "lodash/keys",
+    "app/modules/userForm/formStates",
     "text!./addUser.html"
-], function (cloneDeep, keys, template) {
+], function (cloneDeep, keys, formStates, template) {
     "use strict";
 
     return {
@@ -31,24 +32,21 @@ define([
         },
 
         computed: {
-            statusError: function() {
-                return "error" === this.$store.state.userForm.status;
-            },
-
-            statusProgress: function() {
-                return "progress" === this.$store.state.userForm.status;
-            },
-
-            statusSuccess: function() {
-                return "success" === this.$store.state.userForm.status;
-            },
-
             errors: function() {
-                return this.$store.state.userForm.errors;
+                return this.$store.state.userForm.validationMessages;
+            },
+
+            submitError: function() {
+                return this.$store.state.userForm.submitError;
             }
         },
 
         methods: {
+
+            inState: function(state) {
+                return state === this.$store.state.userForm.formState;
+            },
+
             save: function() {
                 this.$store.dispatch('userForm/saveUser', this.user);
             }

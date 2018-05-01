@@ -22,7 +22,7 @@ define([
     "use strict";
 
     return function(context, user) {
-        context.commit("submitStart");
+        context.commit("submitInProgress");
 
         http.sendRequest("/vue/views/addUser", {
             data: user,
@@ -31,7 +31,17 @@ define([
             }
         }, debounce(function(err, resp) {
             if (err) {
-                context.commit("submitError", resp.json().errors);
+                if (resp.responseCode >= 400 && resp.responseCode < 500) {
+                    resp.json(function(err1, obj) {
+                        if (err1) {
+                            context.commit("submitError", err1);
+                        } else {
+                            context.commit("validationFailed", obj.errors);
+                        }
+                    });
+                } else {
+                    context.commit("submitError", err);
+                }
             } else {
                 context.commit("submitSuccess", user);
             }

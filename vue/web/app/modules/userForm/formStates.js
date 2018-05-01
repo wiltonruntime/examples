@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-define([
-    "lodash/isNil",
-    "vue",
-    "../formStates"
-], function(isNil, Vue, formStates) {
+define([], function() {
     "use strict";
 
-    return function(state, error) {
-        // unlock form
-        Vue.set(state, "formState", formStates.SUBMIT_ERROR);
-
-        // show error alert
-        var msg = !isNil(error) ? error : "Submit error";
-        Vue.set(state, "submitError", "ERROR: " + msg);
+    return {
+        INITIAL: "INITIAL",
+        SUBMIT_IN_PROGRESS: "SUBMIT_IN_PROGRESS",
+        VALIDATION_FAILED: "VALIDATION_FAILED",
+        SUBMIT_ERROR: "SUBMIT_ERROR",
+        SUBMIT_SUCCESS: "SUBMIT_SUCCESS"
     };
 });

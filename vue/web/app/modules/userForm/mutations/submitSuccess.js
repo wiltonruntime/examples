@@ -18,13 +18,14 @@ define([
     "lodash/cloneDeep",
     "lodash/forEach",
     "lodash/keys",
-    "vue"
-], function(cloneDeep, forEach, keys, Vue) {
+    "vue",
+    "../formStates"
+], function(cloneDeep, forEach, keys, Vue, formStates) {
     "use strict";
 
     return function(state, user) {
         // show success badge
-        state.status = "success";
+        Vue.set(state, "formState", formStates.SUBMIT_SUCCESS);
 
         // clear fields
         var klist = keys(state.userEmpty);
