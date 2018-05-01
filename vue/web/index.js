@@ -16,9 +16,9 @@
 
 define([
     "vue",
-    "./router",
-    "./store",
-    "./app"
+    "./app/router",
+    "./app/store",
+    "./app/app"
 ], function(Vue, router, store, app) {
     "use strict";
 

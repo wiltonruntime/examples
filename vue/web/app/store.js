@@ -26,7 +26,7 @@ define(function(require) {
         strict: true,
 
         modules: {
-            userForm: require("./modules/userForm/index")
+            userForm: require("./modules/userForm/userForm")
         }
 
     });
