@@ -15,11 +15,14 @@
  */
 
 define([
-    "text!./usersList.html"
-], function (template) {
+    "lodash/debounce",
+    "wilton/web/httpClient",
+    "json!/vue/views/config"
+], function(debounce, http, conf) {
     "use strict";
 
-    return {
-        template: template
+    return function(context, params) {
+        console.log("loadUsers");
+        context.commit("usersLoaded", []);
     };
 });

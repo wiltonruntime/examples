@@ -27,10 +27,10 @@ define(function(require) {
         linkExactActiveClass: "list-group-item-secondary",
         routes: [
             { path: "/", redirect: "/description" },
-            { path: "/description", component: require("./components/description/description") },
-            { path: "/addUser", component: require("./components/addUser/addUser") },
-            { path: "/usersList", component: require("./components/usersList/usersList") },
-            { path: "/aboutWilton", component: require("./components/aboutWilton/aboutWilton") }
+            { path: "/description", component: require("./modules/description/description") },
+            { path: "/addUser", component: require("./modules/addUser/addUser") },
+            { path: "/searchUsers", component: require("./modules/usersList/usersList") },
+            { path: "/aboutWilton", component: require("./modules/aboutWilton/aboutWilton") }
         ]
     });
 });

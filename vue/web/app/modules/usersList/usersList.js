@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-define(function(require) {
+define([
+    "text!./searchUsers.html"
+], function (template) {
     "use strict";
 
-    var Vue = require("vue");
-    var Vuex = require("vuex");
+    return {
+        template: template,
 
-    Vue.use(Vuex);
+        data: function() {
+            return {
+                users: this.$store.state.usersList.users
+            };
+        },
 
-    return new Vuex.Store({
-        strict: true,
-
-        modules: {
-            userForm: require("./modules/addUser/addUserStore"),
-            usersList: require("./modules/usersList/usersListStore")
+        created: function() {
+            this.$store.dispatch('usersList/loadUsers');
         }
-
-    });
+    };
 });

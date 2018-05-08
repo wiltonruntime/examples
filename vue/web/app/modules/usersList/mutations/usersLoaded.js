@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 
-define(function(require) {
+define([
+    "lodash/isArray",
+    "vue"
+], function(isArray, Vue) {
     "use strict";
 
-    var Vue = require("vue");
-    var Vuex = require("vuex");
-
-    Vue.use(Vuex);
-
-    return new Vuex.Store({
-        strict: true,
-
-        modules: {
-            userForm: require("./modules/addUser/addUserStore"),
-            usersList: require("./modules/usersList/usersListStore")
+    return function(state, users) {
+        if (isArray(users)) {
+            Vue.set(state, "users", users);
+        } else {
+            // error
         }
-
-    });
+    };
 });

@@ -17,18 +17,21 @@
 define(function(require) {
     "use strict";
 
-    var Vue = require("vue");
-    var Vuex = require("vuex");
+    return {
+        namespaced: true,
 
-    Vue.use(Vuex);
+        state: {
 
-    return new Vuex.Store({
-        strict: true,
+            users: []
 
-        modules: {
-            userForm: require("./modules/addUser/addUserStore"),
-            usersList: require("./modules/usersList/usersListStore")
+        },
+
+        mutations: {
+            usersLoaded: require("./mutations/usersLoaded")
+        },
+
+        actions: {
+            loadUsers: require("./actions/loadUsers")
         }
-
-    });
+    };
 });

@@ -145,7 +145,8 @@ define([
     "spark-md5/test/specs",
     "xml-js/runAllTests",
     "uglify-js/test/min-process",
-    "./httpClientTest"
+    "./httpClientTest",
+    "arrays/test"
 ], function() {
 });
 
