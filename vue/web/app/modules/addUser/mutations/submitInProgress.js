@@ -18,8 +18,8 @@ define([
     "lodash/forEach",
     "lodash/keys",
     "vue",
-    "../formStates"
-], function(forEach, keys, Vue, formStates) {
+    "../addUserStates"
+], function(forEach, keys, Vue, states) {
     "use strict";
 
     return function(state) {
@@ -30,6 +30,6 @@ define([
         });
 
         // set status
-        Vue.set(state, "formState", formStates.SUBMIT_IN_PROGRESS);
+        Vue.set(state, "currentState", states.SUBMIT_IN_PROGRESS);
     };
 });

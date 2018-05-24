@@ -19,36 +19,7 @@
         <span class="font-weight-bold">Add User</span>
     </div>
     <div class="card-body">
-        <div 
-            class="alert alert-info"
-            role="alert"
-            v-if="inState('SUBMIT_IN_PROGRESS')">
-            Saving user ...
-        </div>
-        <div 
-            class="alert alert-danger"
-            role="alert"
-            v-else-if="inState('VALIDATION_FAILED')">
-            Some of the specified values were invalid
-        </div>
-        <div 
-            class="alert alert-warning"
-            role="alert"
-            v-else-if="inState('SUBMIT_ERROR')">
-            {{submitError}}
-        </div>
-        <div 
-            class="alert alert-success"
-            role="alert"
-            v-else-if="inState('SUBMIT_SUCCESS')">
-            User saved successfully
-        </div>
-        <div 
-            class="alert alert-light"
-            role="alert"
-            v-else>
-            Add new user to the users list
-        </div>
+        <state-alert></state-alert>
         <form v-on:submit.prevent="save">
             <div class="form-group row ">
                 <label class="col-2" for="nick">Nickname</label>

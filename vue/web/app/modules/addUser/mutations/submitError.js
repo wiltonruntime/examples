@@ -17,13 +17,13 @@
 define([
     "lodash/isNil",
     "vue",
-    "../formStates"
-], function(isNil, Vue, formStates) {
+    "../addUserStates"
+], function(isNil, Vue, states) {
     "use strict";
 
     return function(state, error) {
         // unlock form
-        Vue.set(state, "formState", formStates.SUBMIT_ERROR);
+        Vue.set(state, "currentState", states.SUBMIT_ERROR);
 
         // show error alert
         var msg = !isNil(error) ? error : "Submit error";

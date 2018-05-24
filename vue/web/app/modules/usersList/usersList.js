@@ -15,7 +15,7 @@
  */
 
 define([
-    "text!./searchUsers.html"
+    "text!./usersList.html"
 ], function (template) {
     "use strict";
 

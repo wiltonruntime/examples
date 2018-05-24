@@ -17,20 +17,20 @@
 define(function(require) {
     "use strict";
 
-    var formStates = require("./formStates");
+    var states = require("./addUserStates");
 
     return {
         namespaced: true,
 
         state: {
 
+            currentState: states.INITIAL,
+
             userEmpty: {
                 nick: "",
                 email: "",
                 spam: false
             },
-
-            formState: formStates.INITIAL,
 
             validationMessages: { },
 

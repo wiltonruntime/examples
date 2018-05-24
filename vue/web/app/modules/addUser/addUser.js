@@ -16,39 +16,71 @@
 
 define([
     "lodash/cloneDeep",
-    "lodash/keys",
-    "app/modules/userForm/formStates",
+    "app/components/StateAlert/StateAlert",
     "text!./addUser.html"
-], function (cloneDeep, keys, formStates, template) {
+], function (cloneDeep, StateAlert, template) {
     "use strict";
+
+    function store(thiz) {
+        return thiz.$store.state.addUser;
+    }
 
     return {
         template: template,
 
+        components: {
+            "state-alert": new StateAlert({
+                INITIAL: {
+                    color: "light",
+                    message: "Add new user to the users list"
+                },
+                SUBMIT_IN_PROGRESS: {
+                    color: "info",
+                    message: "Saving user ..."
+                },
+                VALIDATION_FAILED: {
+                    color: "danger",
+                    message: "Some of the specified values were invalid"
+                },
+                SUBMIT_ERROR: {
+                    color: "warning",
+                    message: function() {
+                        return store(this).submitError;
+                    }
+                },
+                SUBMIT_SUCCESS: {
+                    color: "success",
+                    message: "User saved successfully"
+                }
+            }, function() {
+                return store(this).currentState;
+            })
+        },
+
         data: function() {
             return {
-                user: cloneDeep(this.$store.state.userForm.userEmpty)
+                user: cloneDeep(store(this).userEmpty)
             };
         },
 
         computed: {
             errors: function() {
-                return this.$store.state.userForm.validationMessages;
+                return store(this).validationMessages;
             },
 
             submitError: function() {
-                return this.$store.state.userForm.submitError;
+                return store(this).submitError;
             }
         },
 
         methods: {
 
             inState: function(state) {
-                return state === this.$store.state.userForm.formState;
+                return state === store(this).currentState;
             },
 
             save: function() {
-                this.$store.dispatch('userForm/saveUser', this.user);
+                this.$store.dispatch('addUser/saveUser', this.user);
             }
         }
     };

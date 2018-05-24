@@ -16,13 +16,13 @@
 
 define([
     "vue",
-    "../formStates"
-], function(Vue, formStates) {
+    "../addUserStates"
+], function(Vue,states) {
     "use strict";
 
     return function(state, errors) {
         // unlock form
-        Vue.set(state, "formState", formStates.VALIDATION_FAILED);
+        Vue.set(state, "currentState", states.VALIDATION_FAILED);
 
         // show validation errors
         Vue.set(state, "validationMessages", errors);

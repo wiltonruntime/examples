@@ -26,7 +26,7 @@ define(function(require) {
         strict: true,
 
         modules: {
-            userForm: require("./modules/addUser/addUserStore"),
+            addUser: require("./modules/addUser/addUserStore"),
             usersList: require("./modules/usersList/usersListStore")
         }
 
