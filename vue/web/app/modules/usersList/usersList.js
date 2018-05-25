@@ -15,21 +15,132 @@
  */
 
 define([
+    // modules
+    "lodash/isNil",
+    "lodash/isEmpty",
+    // app
+    "json!/vue/views/config",
+    "app/components/Pagination",
+    "app/components/StateAlert",
+    "./usersListStates",
     "text!./usersList.html"
-], function (template) {
+], function (
+        isNil, isEmpty, // modules
+        cfg, Pagination, StateAlert, states, template // app
+) {
     "use strict";
+
+    function store(thiz) {
+        return thiz.$store.state.usersList;
+    }
 
     return {
         template: template,
 
+        components: {
+            "state-alert": new StateAlert({
+                INITIAL: ["info", "Loading ..."],
+                LOADING: ["info", "Loading ..."],
+                SUCCESS: ["light", "List of existing users"],
+                NO_DATA: ["dark", "No users found"],
+                ERROR: ["warning", function() { return store(this).error; }]
+            }, function() {
+                return store(this).currentState;
+            }),
+            
+            "pagination": new Pagination(cfg.tablePageSize,
+                    function() { return store(this).currentPage; },
+                    function() { return store(this).count; },
+                    function(page) { this.$parent.loadPage(page); })
+        },
+
         data: function() {
             return {
-                users: this.$store.state.usersList.users
+                users: store(this).users
             };
         },
 
+        computed: {
+            tableCss: function() {
+                return {
+                    "table": true,
+                    "table-sm": true,
+                    "table-bordered": true,
+                    "table-striped": states.LOADING !== store(this).currentState,
+                    "text-muted": states.LOADING === store(this).currentState,
+                    "bg-light": states.LOADING === store(this).currentState
+                };
+            }
+        },
+
         created: function() {
-            this.$store.dispatch('usersList/loadUsers');
+            this.load();
+        },
+
+        methods: {
+
+            inState: function(state) {
+                return state === store(this).currentState;
+            },
+
+            load: function(params) {
+                params = params || {};
+                // page
+                if (isNil(params.page)) {
+                    var cp = store(this).currentPage;
+                    if (cp !== 1) {
+                        params.page = cp;
+                    }
+                }
+                // sortval
+                if (isNil(params.sortval)) {
+                    var cursort = store(this).sortval;
+                    if (!isEmpty(cursort)) {
+                        params.sortval = cursort;
+                    }
+                }
+                // sortdir
+                if (isNil(params.sortdir)) {
+                    var cursort = store(this).sortval;
+                    if (!isEmpty(cursort)) {
+                        var curdir = store(this).sortdir;
+                        if (!isEmpty(curdir)) {
+                            params.sortdir = curdir;
+                        }
+                    }
+                }
+                // dispatch action
+                this.$store.dispatch("usersList/loadUsers", params);
+            },
+
+            loadPage: function(page) {
+                this.load({
+                    page: page
+                });
+            },
+
+            sort: function(field) {
+                var curdir = store(this).sortdir;
+                var dir = curdir;
+                if (store(this).sortval === field) {
+                    dir = curdir === "asc" ? "desc" : "asc";
+                }
+                this.load({
+                    sortval: field,
+                    sortdir: dir,
+                    page: 1
+                });
+            },
+
+            sortArrow: function(field) {
+                if (store(this).sortval === field) {
+                    var dir = store(this).sortdir;
+                    var code = cfg.sortArrow[dir];
+                    return String.fromCharCode(code);
+                }
+                return "";
+            }
         }
+
     };
 });

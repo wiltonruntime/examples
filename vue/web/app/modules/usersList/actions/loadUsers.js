@@ -16,13 +16,42 @@
 
 define([
     "lodash/debounce",
+    "qs",
     "wilton/web/httpClient",
     "json!/vue/views/config"
-], function(debounce, http, conf) {
+], function(debounce, qs, http, conf) {
     "use strict";
 
+
+    function createUrl(params) {
+        var url = "/vue/views/usersList";
+        var queries = qs.stringify(params);
+        if (queries.length > 0) {
+            url += "?";
+            url += queries;
+        }
+        return url;
+    }
+
     return function(context, params) {
-        console.log("loadUsers");
-        context.commit("usersLoaded", []);
+        context.commit("startLoading", params);
+
+        http.sendRequest(createUrl(params), {
+            meta: {
+                timeoutMillis: conf.requestTimeoutMillis
+            }
+        }, debounce(function(err, resp) {
+            if (err) {
+                context.commit("loadError", err);
+            } else {
+                resp.json(function(err1, obj) {
+                    if (err1) {
+                        context.commit("submitError", err1);
+                    } else {
+                        context.commit("usersLoaded", obj);
+                    }
+                });
+            }
+        }, conf.debounceWaitMillis));
     };
 });

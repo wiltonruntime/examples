@@ -32,62 +32,59 @@
                                         <input id="email" name="email" type="text" class="form-control" placeholder="Email" value="{{email}}">
                                     </div>
                                     <div class="col2">
-                                        <button type="submit" class="btn btn-secondary">Filter</button>
+                                        <button type="submit" class="btn btn-primary">Filter</button>
                                     </div>
                                 </div>
                             </form>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            <a
-                                                class="text-secondary"
-                                                href="{{sortUrl}}sortval=id&sortdir={{sortdirInverted}}">
-                                                {{{sortArrow.id}}} ID
-                                            </a>
-                                        </th>
-                                        <th>
-                                            <a
-                                                class="text-secondary"
-                                                href="{{sortUrl}}sortval=dateAdded&sortdir={{sortdirInverted}}">
-                                                {{{sortArrow.dateAdded}}} Date
-                                            </a>
-                                        </th>
-                                        <th>
-                                            <a
-                                                class="text-secondary"
-                                                href="{{sortUrl}}sortval=nick&sortdir={{sortdirInverted}}">
-                                                {{{sortArrow.nick}}} Nick
-                                            </a>
-                                        </th>
-                                        <th>
-                                            <a
-                                                class="text-secondary"
-                                                href="{{sortUrl}}sortval=email&sortdir={{sortdirInverted}}">
-                                                {{{sortArrow.email}}} Email
-                                            </a>
-                                        </th>
-                                        <th><a
-                                                class="text-secondary"
-                                                href="{{sortUrl}}sortval=spam&sortdir={{sortdirInverted}}">
-                                                {{{sortArrow.spam}}} allowSpam
-                                            </a>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {{#users}}
-                                    <tr>
-                                        <td>{{id}}</td>
-                                        <td>{{dateAdded}}</td>
-                                        <td>{{nick}}</td>
-                                        <td>{{email}}</td>
-                                        <td>{{spam}}</td>
-                                    </tr>
-                                    {{/users}}
-                                </tbody>
-                            </table>
-                            {{> pagination}}
+                            <div class="table-responsive">
+                                <table class="table table-sm table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <a
+                                                    href="{{sortUrl}}sortval=id&sortdir={{sortdirInverted}}">
+                                                    {{{sortArrow.id}}} ID
+                                                </a>
+                                            </th>
+                                            <th>
+                                                <a
+                                                    href="{{sortUrl}}sortval=dateAdded&sortdir={{sortdirInverted}}">
+                                                    {{{sortArrow.dateAdded}}} Date
+                                                </a>
+                                            </th>
+                                            <th>
+                                                <a
+                                                    href="{{sortUrl}}sortval=nick&sortdir={{sortdirInverted}}">
+                                                    {{{sortArrow.nick}}} Nick
+                                                </a>
+                                            </th>
+                                            <th>
+                                                <a
+                                                    href="{{sortUrl}}sortval=email&sortdir={{sortdirInverted}}">
+                                                    {{{sortArrow.email}}} Email
+                                                </a>
+                                            </th>
+                                            <th><a
+                                                    href="{{sortUrl}}sortval=spam&sortdir={{sortdirInverted}}">
+                                                    {{{sortArrow.spam}}} allowSpam
+                                                </a>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#users}}
+                                        <tr>
+                                            <td>{{id}}</td>
+                                            <td>{{dateAdded}}</td>
+                                            <td>{{nick}}</td>
+                                            <td>{{email}}</td>
+                                            <td>{{spam}}</td>
+                                        </tr>
+                                        {{/users}}
+                                    </tbody>
+                                </table>
+                                {{> pagination}}
+                            </div>
                         </div>
                     </div>
                 </div>

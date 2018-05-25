@@ -15,27 +15,26 @@
  */
 
 define([
-    "lodash/isArray",
     "lodash/isNumber",
     "lodash/isObject",
+    "lodash/isString",
     "vue",
     "../usersListStates"
-], function(isArray, isNumber, isObject, Vue, states) {
+], function(isNumber, isObject, isString, Vue, states) {
     "use strict";
 
-    return function(state, resp) {
-        if (isObject(resp) && isArray(resp.users) && isNumber(resp.count)) {
-            Vue.set(state, "count", resp.count);
-            if (resp.count > 0) {
-                state.users.splice(0);
-                Array.prototype.push.apply(state.users, resp.users);
-                Vue.set(state, "currentState", states.SUCCESS);
-            } else {
-                Vue.set(state, "currentState", states.NO_DATA);
+    return function(state, params) {
+        Vue.set(state, "currentState", states.LOADING);
+        if (isObject(params)) {
+            if (isNumber(params.page)) {
+                Vue.set(state, "currentPage", params.page);
             }
-        } else {
-            Vue.set(state, "currentState", states.ERROR);
-            Vue.set(state, "error", "Invalid reponse from server");
+            if (isString(params.sortval)) {
+                Vue.set(state, "sortval", params.sortval);
+            }
+            if (isString(params.sortdir)) {
+                Vue.set(state, "sortdir", params.sortdir);
+            }
         }
     };
 });

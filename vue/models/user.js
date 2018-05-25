@@ -63,7 +63,7 @@ define([
 
         count: function(params) {
             var rec = db.queryObject(qrs.count, params);
-            return rec.count;
+            return parseInt(rec.count, 10);
         },
 
         insertDummyRecords: function() {

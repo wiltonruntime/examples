@@ -19,59 +19,62 @@
         <span class="font-weight-bold">Search Users</span>
     </div>
     <div class="card-body">
-        <div 
-            class="alert alert-light"
-            role="alert">
-            List of the existing users
+
+        <state-alert></state-alert>
+
+        <div class="table-responsive">
+            <table
+                v-bind:class="tableCss"
+                v-if="users.length > 0">
+                <thead>
+                    <tr>
+                        <th>
+                            <a
+                                href="#"
+                                v-on:click.stop.prevent="sort('id')">
+                                {{sortArrow('id')}} ID
+                            </a>
+                        </th>
+                        <th>
+                            <a
+                                href="#"
+                                v-on:click.stop.prevent="sort('dateAdded')">
+                                {{sortArrow('dateAdded')}} Date
+                            </a>
+                        </th>
+                        <th>
+                            <a
+                                href="#"
+                                v-on:click.stop.prevent="sort('nick')">
+                                {{sortArrow('nick')}} Nick
+                            </a>
+                        </th>
+                        <th>
+                            <a
+                                href="#"
+                                v-on:click.stop.prevent="sort('email')">
+                                {{sortArrow('email')}} Email
+                            </a>
+                        </th>
+                        <th><a
+                                href="#"
+                                v-on:click.stop.prevent="sort('spam')">
+                                {{sortArrow('spam')}} Allow Spam
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="user in users">
+                        <td>{{user.id}}</td>
+                        <td>{{user.dateAdded}}</td>
+                        <td>{{user.nick}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.spam}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <pagination></pagination>
         </div>
-        <table class="table table-responsive table-sm table-striped">
-            <thead>
-                <tr>
-                    <th>
-                        <a
-                            class="text-secondary"
-                            href="#">
-                            ID
-                        </a>
-                    </th>
-                    <th>
-                        <a
-                            class="text-secondary"
-                            href="#">
-                            Date
-                        </a>
-                    </th>
-                    <th>
-                        <a
-                            class="text-secondary"
-                            href="#">
-                            Nick
-                        </a>
-                    </th>
-                    <th>
-                        <a
-                            class="text-secondary"
-                            href="#">
-                            Email
-                        </a>
-                    </th>
-                    <th><a
-                            class="text-secondary"
-                            href="#">
-                            Allow Spam
-                        </a>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="user in users">
-                    <td>user.id</td>
-                    <td>user.dateAdded</td>
-                    <td>user.nick</td>
-                    <td>user.email</td>
-                    <td>user.spam</td>
-                </tr>
-            </tbody>
-        </table>
     </div>
 </div>

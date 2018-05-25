@@ -20,11 +20,13 @@ define([
     "use strict";
 
     return function(states, currentStateFun) {
+
         this.template = template;
 
         this.computed = {
             cssClasses: function() {
-                var clazz = states[currentStateFun.apply(this)].color;
+                var st = states[currentStateFun.apply(this)];
+                var clazz = st.color || st[0];
                 var res = {
                     alert: true
                 };
@@ -33,7 +35,8 @@ define([
             },
 
             message: function() {
-                var msg = states[currentStateFun.apply(this)].message;
+                var st = states[currentStateFun.apply(this)];
+                var msg = st.message || st[1];
                 if ("function" === typeof(msg)) {
                     return msg.apply(this);
                 } else {

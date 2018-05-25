@@ -23,8 +23,8 @@ define(function(require) {
     Vue.use(VueRouter);
 
     return new VueRouter({
-        linkActiveClass: "list-group-item-secondary",
-        linkExactActiveClass: "list-group-item-secondary",
+        linkActiveClass: "active",
+        linkExactActiveClass: "active",
         routes: [
             { path: "/", redirect: "/description" },
             { path: "/description", component: require("./modules/description/description") },

@@ -17,14 +17,12 @@
 define(function(require) {
     "use strict";
 
-    var states = require("./addUserStates");
-
     return {
         namespaced: true,
 
         state: {
 
-            currentState: states.INITIAL,
+            currentState: require("./addUserStates").INITIAL,
 
             userEmpty: {
                 nick: "",

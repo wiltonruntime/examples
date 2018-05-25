@@ -34,8 +34,8 @@ define([
             requestTimeoutMillis: 3000,
             debounceWaitMillis: 500,
             sortArrow: {
-                asc: "&uarr;",
-                desc: "&darr;"
+                asc: 0x2191,
+                desc: 0x2193
             },
             logging: {
                 appenders: [{

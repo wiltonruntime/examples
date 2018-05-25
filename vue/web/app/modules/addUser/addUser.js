@@ -16,7 +16,7 @@
 
 define([
     "lodash/cloneDeep",
-    "app/components/StateAlert/StateAlert",
+    "app/components/StateAlert",
     "text!./addUser.html"
 ], function (cloneDeep, StateAlert, template) {
     "use strict";
@@ -30,28 +30,11 @@ define([
 
         components: {
             "state-alert": new StateAlert({
-                INITIAL: {
-                    color: "light",
-                    message: "Add new user to the users list"
-                },
-                SUBMIT_IN_PROGRESS: {
-                    color: "info",
-                    message: "Saving user ..."
-                },
-                VALIDATION_FAILED: {
-                    color: "danger",
-                    message: "Some of the specified values were invalid"
-                },
-                SUBMIT_ERROR: {
-                    color: "warning",
-                    message: function() {
-                        return store(this).submitError;
-                    }
-                },
-                SUBMIT_SUCCESS: {
-                    color: "success",
-                    message: "User saved successfully"
-                }
+                INITIAL: ["light", "Add new user to the users list"],
+                SUBMIT_IN_PROGRESS: ["info", "Saving user ..."],
+                VALIDATION_FAILED: ["danger", "Some of the specified values were invalid"],
+                SUBMIT_ERROR: ["warning", function() { return store(this).submitError; }],
+                SUBMIT_SUCCESS: ["success", "User saved successfully"]
             }, function() {
                 return store(this).currentState;
             })

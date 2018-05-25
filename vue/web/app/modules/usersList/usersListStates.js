@@ -18,8 +18,9 @@ define([], function() {
     "use strict";
 
     return {
+        INITIAL: "INITIAL",
         LOADING: "LOADING",
-        DATA_LOADED: "DATA_LOADED",
+        SUCCESS: "SUCCESS",
         NO_DATA: "NO_DATA",
         ERROR: "ERROR"
     };
