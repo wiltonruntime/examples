@@ -22,6 +22,39 @@
 
         <state-alert></state-alert>
 
+        <form id="filter" v-on:submit.prevent="filter">
+            <div class="row">
+                <div class="col-5 form-group">
+                    <label for="nick" class="sr-only">Nick</label>
+                    <input
+                        name="nick"
+                        type="text"
+                        class="form-control"
+                        placeholder="Nick"
+                        v-model.trim="filters.nick"
+                        v-bind:disabled="inState('LOADING')">
+                </div>
+                <div class="col-5 form-group">
+                    <label for="nick" class="sr-only">Email</label>
+                    <input
+                        name="email"
+                        type="text"
+                        class="form-control"
+                        placeholder="Email"
+                        v-model.trim="filters.email"
+                        v-bind:disabled="inState('LOADING')">
+                </div>
+                <div>
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        v-bind:disabled="inState('LOADING')">
+                        Filter
+                    </button>
+                </div>
+            </div>
+        </form>
+
         <div class="table-responsive">
             <table
                 v-bind:class="tableCss"

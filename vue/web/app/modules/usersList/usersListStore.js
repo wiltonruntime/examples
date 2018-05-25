@@ -27,10 +27,6 @@ define(function(require) {
             users: [],
             count: 0,
 
-            currentPage: 1,
-            sortval: "",
-            sortdir: "desc",
-
             error: ""
 
         },

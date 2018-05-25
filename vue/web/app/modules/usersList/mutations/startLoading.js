@@ -15,26 +15,12 @@
  */
 
 define([
-    "lodash/isNumber",
-    "lodash/isObject",
-    "lodash/isString",
     "vue",
     "../usersListStates"
-], function(isNumber, isObject, isString, Vue, states) {
+], function(Vue, states) {
     "use strict";
 
     return function(state, params) {
         Vue.set(state, "currentState", states.LOADING);
-        if (isObject(params)) {
-            if (isNumber(params.page)) {
-                Vue.set(state, "currentPage", params.page);
-            }
-            if (isString(params.sortval)) {
-                Vue.set(state, "sortval", params.sortval);
-            }
-            if (isString(params.sortdir)) {
-                Vue.set(state, "sortdir", params.sortdir);
-            }
-        }
     };
 });

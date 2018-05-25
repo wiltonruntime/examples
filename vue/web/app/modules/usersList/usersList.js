@@ -49,14 +49,23 @@ define([
             }),
             
             "pagination": new Pagination(cfg.tablePageSize,
-                    function() { return store(this).currentPage; },
+                    function() { return this.$parent.currentPage; },
                     function() { return store(this).count; },
                     function(page) { this.$parent.loadPage(page); })
         },
 
         data: function() {
             return {
-                users: store(this).users
+                users: store(this).users,
+
+                filters: {
+                    nick: "",
+                    email: ""
+                },
+
+                currentPage: 1,
+                sortval: "",
+                sortdir: "desc"
             };
         },
 
@@ -86,59 +95,59 @@ define([
             load: function(params) {
                 params = params || {};
                 // page
-                if (isNil(params.page)) {
-                    var cp = store(this).currentPage;
-                    if (cp !== 1) {
-                        params.page = cp;
-                    }
+                if (isNil(params.page) && this.currentPage > 0) {
+                    params.page = this.currentPage;
                 }
                 // sortval
-                if (isNil(params.sortval)) {
-                    var cursort = store(this).sortval;
-                    if (!isEmpty(cursort)) {
-                        params.sortval = cursort;
-                    }
+                if (isNil(params.sortval) && !isEmpty(this.sortval)) {
+                    params.sortval = this.sortval;
                 }
                 // sortdir
-                if (isNil(params.sortdir)) {
-                    var cursort = store(this).sortval;
-                    if (!isEmpty(cursort)) {
-                        var curdir = store(this).sortdir;
-                        if (!isEmpty(curdir)) {
-                            params.sortdir = curdir;
-                        }
-                    }
+                if (isNil(params.sortdir) && !isEmpty(this.sortval) && !isEmpty(this.sortdir)) {
+                    params.sortdir = this.sortdir;
+                }
+                // filters
+                if (isNil(params.nick) && !isEmpty(this.filters.nick)) {
+                    params.nick = this.filters.nick;
+                }
+                if (isNil(params.email) && !isEmpty(this.filters.email)) {
+                    params.email= this.filters.email;
                 }
                 // dispatch action
                 this.$store.dispatch("usersList/loadUsers", params);
             },
 
             loadPage: function(page) {
+                this.currentPage = page;
                 this.load({
                     page: page
                 });
             },
 
             sort: function(field) {
-                var curdir = store(this).sortdir;
+                var curdir = this.sortdir;
                 var dir = curdir;
-                if (store(this).sortval === field) {
+                if (this.sortval === field) {
                     dir = curdir === "asc" ? "desc" : "asc";
                 }
-                this.load({
-                    sortval: field,
-                    sortdir: dir,
-                    page: 1
-                });
+                this.sortval = field;
+                this.sortdir = dir;
+                this.currentPage = 1;
+                this.load();
             },
 
             sortArrow: function(field) {
-                if (store(this).sortval === field) {
-                    var dir = store(this).sortdir;
+                if (this.sortval === field) {
+                    var dir = this.sortdir;
                     var code = cfg.sortArrow[dir];
                     return String.fromCharCode(code);
                 }
                 return "";
+            },
+
+            filter: function() {
+                this.currentPage = 1;
+                this.load();
             }
         }
 
