@@ -146,7 +146,18 @@ define([
     "xml-js/runAllTests",
     "uglify-js/test/min-process",
     "./httpClientTest",
-    "arrays/test"
+    "arrays/test",
+    "typed-function/runAllTests",
+//    process.nextTick
+//    "tiny-emitter/test/index",
+    "seed-random/test/index",
+    "javascript-natural-sort/unit-test",
+    "fractionjs/tests/fraction.test",
+    "escape-latex/src/index.test",
+    "decimaljs/test/test",
+    "complexjs/tests/complex.test"
+//   run it separately
+//    "mathjs/runAllTests"
 ], function() {
 });
 
