@@ -92,7 +92,7 @@ define([
                     cacheMaxAgeSeconds: 0
                 },
                 {
-                    resource: "/stdlib/",
+                    resource: "/stdlib",
                     zipPath: appdir + "std.wlib",
                     cacheMaxAgeSeconds: 0
                 }]
