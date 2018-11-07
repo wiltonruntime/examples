@@ -16,11 +16,12 @@
 
 define([
     "module",
+    "wilton/Channel",
     "wilton/loader",
     "wilton/Logger",
     "wilton/misc",
     "wilton/Server"
-], function(module, loader, Logger, misc, Server) {
+], function(module, Channel, loader, Logger, misc, Server) {
     "use strict";
     var logger = new Logger(module.id);
 
@@ -29,7 +30,8 @@ define([
             Logger.initConsole("INFO");
             var server = new Server({
                 views: [
-//                    "browser/views/httpClientView"
+                    "browser/views/httpClientView",
+                    "browser/views/wsClientView"
                 ],
                 rootRedirectLocation: "/web/index.html",
                 documentRoots: [{
@@ -44,7 +46,15 @@ define([
                     cacheMaxAgeSeconds: 0
                 }]
             });
-            logger.info("Test server started, open in browser: http://127.0.0.1:8080/")
+
+            // share server instance to other threads
+            // to be able to broadcast WebSocket messages
+            new Channel("server/instance", 1).send({
+                handle: server.handle
+            });
+
+            logger.info("Test server started, open in browser: http://127.0.0.1:8080/");
+
             misc.waitForSignal();
             server.stop();
         }

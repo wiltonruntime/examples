@@ -50,7 +50,12 @@ define([], function() {
             Buffer = buffer.Buffer;
 
 
-            // app initialiation logic, adjust ad needed
+            // app initialiation logic, adjust as needed
+
+            // run clients
+            require(["web/clients"], function() {
+                console.log("test: clients");
+            });
 
             // run sanity
 //            /*

@@ -138,5 +138,6 @@ define([
     }, function(err, resp) {
         assert(null !== err);
         assert.equal(resp.responseCode, 0);
+        console.log("test: httpClient");
     });
 });

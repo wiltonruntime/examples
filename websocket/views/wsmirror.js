@@ -25,12 +25,12 @@ define([
         WSOPEN: function(req) {
             logger.info("WebSocket connection established, id: [" + req.getWebSocketId() + "]");
             req.sendWebSocket({
-                msg: "WebSocker connection opened successfully"
+                msg: "WebSocket connection opened successfully"
             });
         },
 
         WSMESSAGE: function(req) {
-            logger.info("WebSocker message received, data: [" + req.data() + "], mirroring it back...");
+            logger.info("WebSocket message received, data: [" + req.data() + "], mirroring it back...");
             req.sendWebSocket(req.data());
         },
 
