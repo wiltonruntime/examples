@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <!--
  Copyright 2019, alex at staticlibs.net
 
@@ -13,20 +14,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+<div class="container-fluid">
 
-<div class="row">
-    <div class="col">
-        <div class="row">
-            <div class="col text-center">
-                <h2 class="text-primary mt-1 mb-1">{{label}}</h2>
-                <hr class="mt-0 mb-0"/>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col text-center text-muted">
-                {{description}}
-                <hr class="mt-2 mb-0"/>
-            </div>
-        </div>
-    </div>
+    <transition 
+        name="launcher-fade"
+        v-on:after-enter="top"
+        v-on:after-leave="top">
+        <router-view></router-view>
+    </transition>
+
 </div>

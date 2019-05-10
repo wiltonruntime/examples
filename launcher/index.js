@@ -27,7 +27,7 @@ define([
 ], function(module, Channel, fs, Logger, loader, misc, Server, process, utils) {
     "use strict";
     var logger = new Logger(module.id);
-    utils.checkRootModuleName(module, "kiosk");
+    utils.checkRootModuleName(module, "launcher");
 
     return {
         main: function() {
@@ -35,13 +35,14 @@ define([
             var conf = loader.loadAppConfig(module);
 
             // create necessary dirs
+            fs.mkdir(conf.appdir + "log", function() {});
             fs.mkdir(conf.appdir + "work", function() {});
 
             // init logging
             Logger.initialize(conf.logging);
 
             // share conf for other threads
-            new Channel("kiosk/server/conf", 1).send(conf);
+            new Channel("launcher/server/conf", 1).send(conf);
 
             // server
             logger.info("Starting server on port: [" + conf.server.tcpPort + "]");
@@ -49,13 +50,13 @@ define([
                 ipAddress: conf.server.ipAddress,
                 tcpPort: conf.server.tcpPort,
                 views: [
-                    "kiosk/server/views/notify",
-                    "kiosk/server/views/websocket"
+                    "launcher/server/views/config",
+                    "launcher/server/views/websocket"
                 ],
                 rootRedirectLocation: "/web/index.html",
                 documentRoots: [{
                     resource: "/web",
-                    dirPath: loader.findModulePath("kiosk/web"),
+                    dirPath: loader.findModulePath("launcher/web"),
                     cacheMaxAgeSeconds: conf.server.cacheMaxAgeSeconds
                 },
                 {
@@ -63,12 +64,6 @@ define([
                     zipPath: misc.wiltonConfig().wiltonHome + conf.server.stdlibFileName,
                     cacheMaxAgeSeconds: conf.server.cacheMaxAgeSeconds
                 }]
-            });
-
-            // share server instance to other threads
-            // to be able to broadcast WebSocket messages
-            new Channel("kiosk/server/instance", 1).send({
-                handle: server.handle
             });
 
             if (misc.isWindows() || misc.isLinux()) {
