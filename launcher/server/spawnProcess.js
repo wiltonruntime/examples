@@ -15,26 +15,21 @@
  */
 
 define([
-    "vue",
-    "vue-require/store/dispatch",
-    "text!./app.html"
-], function(Vue, dispatch, template) {
+    "module",
+    "wilton/Logger",
+    "wilton/misc",
+    "wilton/process",
+    "./conf"
+], function(module, Logger, misc, process, conf) {
     "use strict";
+    var logger = new Logger(module.id);
 
-    return Vue.component("App", {
-        template: template,
-
-        components: {
-        },
-
-        created: function() {
-            dispatch("openBackendConnection");
-        },
-
-        methods: {
-            top: function() {
-                window.scrollTo(0, 0);
-            }
-        }
-    });
+    return function(path) {
+        return process.spawn({
+            executable: misc.wiltonConfig().wiltonExecutable,
+            args: [path],
+            outputFile: conf.appdir + "work/app_out.txt",
+            awaitExit: false
+        });
+    };
 });

@@ -15,26 +15,15 @@
  */
 
 define([
-    "vue",
-    "vue-require/store/dispatch",
-    "text!./app.html"
-], function(Vue, dispatch, template) {
+    "module",
+    "wilton/Logger",
+    "wilton/misc",
+    "../conf"
+], function(module, Logger, misc, conf) {
     "use strict";
+    var logger = new Logger(module.id);
 
-    return Vue.component("App", {
-        template: template,
-
-        components: {
-        },
-
-        created: function() {
-            dispatch("openBackendConnection");
-        },
-
-        methods: {
-            top: function() {
-                window.scrollTo(0, 0);
-            }
-        }
-    });
+    return function(path) {
+        // todo
+    };
 });

@@ -27,7 +27,7 @@
                 </div>
                 <div class="row mt-2">
                     <div class="col text-center text-muted">
-                        TODO
+                        Specify the Git URL pointing to Wilton application - it will be cloned and launched
                         <hr class="mt-2 mb-0"/>
                     </div>
                 </div>
@@ -48,9 +48,9 @@
                     id="url"
                     name="url"
                     class="form-control form-control-lg"
-                    v-bind:value="gitUrl">
+                    v-model="gitUrl">
                 <small class="form-text text-muted">
-                    SSH or HTTP(S) URL to the Git repository which contains Wilton application
+                    SSH URL to the Git repository which contains Wilton application
                 </small>
             </div>
         </div>

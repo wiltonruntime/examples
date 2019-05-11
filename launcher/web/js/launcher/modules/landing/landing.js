@@ -16,8 +16,9 @@
 
 define([
     "module",
+    "vue-require/store/dispatch",
     "text!./landing.html"
-], function (module, template) {
+], function (module, dispatch, template) {
     "use strict";
 
     return {
@@ -25,13 +26,13 @@ define([
 
         data: function() {
             return {
-                gitUrl: ""
+                gitUrl: "git+ssh://username@hostname/path/to/repo"
             };
         },
 
         methods: {
             launch: function() {
-                alert(this.gitUrl);
+                dispatch("cloneGitRepo", this.gitUrl);
             }
         }
     };

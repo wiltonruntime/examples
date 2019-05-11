@@ -15,26 +15,21 @@
  */
 
 define([
-    "vue",
+    "vue-require/store/checkActionError",
     "vue-require/store/dispatch",
-    "text!./app.html"
-], function(Vue, dispatch, template) {
+    "vue-require/websocket/backendcall"
+], function(checkActionError, dispatch, backendcall) {
     "use strict";
 
-    return Vue.component("App", {
-        template: template,
-
-        components: {
-        },
-
-        created: function() {
-            dispatch("openBackendConnection");
-        },
-
-        methods: {
-            top: function() {
-                window.scrollTo(0, 0);
-            }
-        }
-    });
+    return function(context, url) {
+        backendcall({
+            module: "launcher/server/calls/gitOperations",
+            func: "clone",
+            args: [url]
+        }, function(err) {
+            if (checkActionError(err)) return;
+            // todo: name
+            dispatch("startApplication", "app");
+        });
+    };
 });

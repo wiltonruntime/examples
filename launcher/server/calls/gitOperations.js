@@ -15,26 +15,27 @@
  */
 
 define([
-    "vue",
-    "vue-require/store/dispatch",
-    "text!./app.html"
-], function(Vue, dispatch, template) {
+    "module",
+    "wilton/fs",
+    "wilton/git",
+    "wilton/Logger",
+    "../conf"
+], function(module, fs, git, Logger, conf) {
     "use strict";
+    var logger = new Logger(module.id);
 
-    return Vue.component("App", {
-        template: template,
-
-        components: {
-        },
-
-        created: function() {
-            dispatch("openBackendConnection");
-        },
-
-        methods: {
-            top: function() {
-                window.scrollTo(0, 0);
+    return {
+        clone: function(url) {
+            logger.info("Cloning Git repository on url: [" + url + "] ...");
+            var repo = conf.appdir + "work/app";
+            if (fs.exists(repo)) {
+                fs.rmdir(repo);
             }
+            git.clone(url, repo, {
+                sshPublicKeyPath: conf.git.sshPublicKeyPath,
+                sshPrivateKeyPath: conf.git.sshPrivateKeyPath
+            });
+            logger.info("Clone perfomed successfully");
         }
-    });
+    };
 });

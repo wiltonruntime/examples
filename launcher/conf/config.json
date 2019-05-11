@@ -4,20 +4,27 @@
 
     "server": {
         "ipAddress": "127.0.0.1",
-        "tcpPort": 8080,
+        "tcpPort": 26100,
         "cacheMaxAgeSeconds": 0,
         "stdlibFileName": "std.wlib"
     },
 
     "client": {
-        "url": "http://127.0.0.1:8080",
+        "url": "http://127.0.0.1:26100",
         "fullscreen": false,
         "windowWidth": 800,
         "windowHeight": 600
     },
 
     "web": {
-        "wsUrl": "ws://127.0.0.1:8080/launcher/server/views/websocket"
+        "wsUrl": "ws://127.0.0.1:26100/launcher/server/views/websocket",
+        "appPort": 8080
+    },
+
+    "git": {
+        "sshPrivateKeyPath": "/sdcard/.ssh/id_rsa",
+        "sshPublicKeyPath": "/sdcard/.ssh/id_rsa.pub",
+        "branch": "master"
     },
 
     "logging": {

@@ -27,7 +27,9 @@ define(function(require) {
         strict: true,
 
         actions: {
-            openBackendConnection: require("./common/actions/openBackendConnection")
+            cloneGitRepo: require("./common/actions/cloneGitRepo"),
+            openBackendConnection: require("./common/actions/openBackendConnection"),
+            startApplication: require("./common/actions/startApplication")
         },
 
         modules: {

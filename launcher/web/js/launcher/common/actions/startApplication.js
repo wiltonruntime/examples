@@ -15,26 +15,19 @@
  */
 
 define([
-    "vue",
-    "vue-require/store/dispatch",
-    "text!./app.html"
-], function(Vue, dispatch, template) {
+    "vue-require/store/checkActionError",
+    "vue-require/websocket/backendcall",
+    "json!/launcher/server/views/config"
+], function(checkActionError, backendcall, conf) {
     "use strict";
 
-    return Vue.component("App", {
-        template: template,
-
-        components: {
-        },
-
-        created: function() {
-            dispatch("openBackendConnection");
-        },
-
-        methods: {
-            top: function() {
-                window.scrollTo(0, 0);
-            }
-        }
-    });
+    return function(context, name) {
+        backendcall({
+            module: "launcher/server/calls/startApplication",
+            args: [name]
+        }, function(err) {
+            if (checkActionError(err)) return;
+            window.location.href = "http://127.0.0.1:" + conf.appPort;
+        });
+    };
 });
