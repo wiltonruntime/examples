@@ -18,24 +18,32 @@
 
     "web": {
         "wsUrl": "ws://127.0.0.1:26100/launcher/server/views/websocket",
+        "wsTimeoutMillis": 30000,
         "appPort": 8080
     },
 
     "git": {
-        "sshPrivateKeyPath": "/sdcard/.ssh/id_rsa",
-        "sshPublicKeyPath": "/sdcard/.ssh/id_rsa.pub",
+        "sshPrivateKeyPath": "/sdcard/Android/data/wilton.android/files/ssh/id_rsa",
+        "sshPublicKeyPath": "/sdcard/Android/data/wilton.android/files/ssh/id_rsa.pub",
         "branch": "master"
     },
 
     "logging": {
-        "appenders": [{
+        "appenders": [
+            {
+                "appenderType": "DAILY_ROLLING_FILE",
+                "thresholdLevel": "DEBUG",
+                "filePath": "{{{appdir}}}/log/launcher_log.txt"
+            },
+            {
             "appenderType": "CONSOLE",
             "thresholdLevel": "DEBUG"
-        }],
+            }
+        ],
         "loggers": {
             "staticlib": "WARN",
             "wilton": "INFO",
-            "kiosk": "DEBUG"
+            "launcher": "DEBUG"
         }
     }
 }

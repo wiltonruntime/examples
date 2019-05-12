@@ -66,6 +66,10 @@ define([
                 }]
             });
 
+            if (misc.isAndroid()) {
+                return;
+            }
+
             if (misc.isWindows() || misc.isLinux()) {
                 logger.info("Server started, initializing WebView ...");
                 var engine = misc.isWindows() ? "rhino" : "duktape";

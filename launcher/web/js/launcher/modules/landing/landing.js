@@ -27,6 +27,7 @@ define([
         data: function() {
             return {
                 gitUrl: "git+ssh://username@hostname/path/to/repo"
+//                gitUrl: "git+ssh://alex@192.168.1.1/home/alex/projects/wilton_other/launcher_apps/vueapp"
             };
         },
 

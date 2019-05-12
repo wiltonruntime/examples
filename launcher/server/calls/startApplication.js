@@ -18,27 +18,27 @@ define([
     "module",
     "wilton/Logger",
     "wilton/misc",
+    "wilton/process",
     "wilton/net",
     "../conf"
-], function(module, Logger, misc, net, conf) {
+], function(module, Logger, misc, process, net, conf) {
     "use strict";
     var logger = new Logger(module.id);
 
     return function(name) {
         var path = conf.appdir + "work/" + name + "/index.js";
         logger.info("Is due to start application on path: [" + path + "]");
-        if (misc.isAndroid()) {
-            throw new Error("TODO: implement me");
-        } else {
-            require(["launcher/server/spawnProcess"], function(spawnProcess) {
-                spawnProcess(path);
-            });
-        }
+        process.spawn({
+            executable: misc.wiltonConfig().wiltonExecutable,
+            args: [path],
+            outputFile: conf.appdir + "work/app_out.txt",
+            awaitExit: false
+        });
         logger.info("Application spawned, waiting for initialization ...");
         net.waitForTcpConnection({
             ipAddress: "127.0.0.1",
             tcpPort: conf.web.appPort,
-            timeoutMillis: 3000 
+            timeoutMillis: 10000 
         });
         logger.info("Application initialization complete");
     };

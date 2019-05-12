@@ -23,7 +23,9 @@ define([
 
     return function(context) {
 
-        wsClient.open(conf.wsUrl, {}, function(err, sock) {
+        wsClient.open(conf.wsUrl, {
+            timeoutMillis: conf.wsTimeoutMillis
+        }, function(err, sock) {
             if (err) {
                console.error(err);
             } else {
