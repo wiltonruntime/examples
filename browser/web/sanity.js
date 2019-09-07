@@ -100,6 +100,8 @@ define([
     "validator/lib/isAlphanumeric",
     "weak-map",
     "wilton/web/httpClient",
+    "windows-1251",
+    "windows-1252",
     "xml-js",
     "xml-writer",
     "xregexp"

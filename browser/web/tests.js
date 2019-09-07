@@ -155,9 +155,11 @@ define([
     "fractionjs/tests/fraction.test",
     "escape-latex/src/index.test",
     "decimaljs/test/test",
-    "complexjs/tests/complex.test"
+    "complexjs/tests/complex.test",
 //   run it separately
-//    "mathjs/runAllTests"
+//    "mathjs/runAllTests",
+    "windows-1251/tests/tests.js",
+    "windows-1252/tests/tests.js"
 ], function() {
 });
 
