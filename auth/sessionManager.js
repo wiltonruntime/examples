@@ -23,6 +23,9 @@ define([
     var engine = random.engines.mt19937().autoSeed();
     // in-memory sessions storage, DB should be used with caution
     // because loadByKey is called on every request
+    // note: must be kept in a separate shared mem,
+    // works with simple var in this example only because server
+    // is started with numberOfThreads: 1
     var storage = {};
 
     function createSession(user) {

@@ -28,6 +28,7 @@ define([
         main: function() {
             Logger.initConsole("INFO");
             var server = new Server({
+                numberOfThreads: 1, // for simpler in-memory store
                 tcpPort: 8080,
                 views: [
                     "auth/views/login",
