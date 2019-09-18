@@ -91,7 +91,6 @@ define([
     "cuint/runAllTests",
     "mime-db/test/index",
     "weak-map/test/weak-map-test",
-    "collections/test/all",
     "tinycolor/test/test",
     "ramda/runAllTests",
     "typify-parser/test/simple",
@@ -158,8 +157,10 @@ define([
     "complexjs/tests/complex.test",
 //   run it separately
 //    "mathjs/runAllTests",
-    "windows-1251/tests/tests.js",
-    "windows-1252/tests/tests.js"
+    "windows-1251/tests/tests",
+    "windows-1252/tests/tests",
+    "stringmap/examples",
+    "buckets/runAllTests"
 ], function() {
 });
 
