@@ -16,10 +16,13 @@
 
 define([
     "module",
+    "wilton/Channel",
     "wilton/Logger"
-], function(module, Logger) {
+], function(module, Channel, Logger) {
     "use strict";
     var logger = new Logger(module.id);
+
+    var chan = Channel.lookup("wsbackground/input");
 
     return {
         WSOPEN: function(req) {
@@ -30,8 +33,15 @@ define([
         },
 
         WSMESSAGE: function(req) {
-            logger.info("WebSocket message received, data: [" + req.data() + "], mirroring it back...");
-            req.sendWebSocket(req.data());
+            logger.info("WebSocket message received, data: [" + req.data() + "] ...");
+            //req.sendWebSocket(req.data());
+            // instead of responding immediately lets
+            // process this message in background thread
+            var handle = req.retainWebSocket();
+            chan.offer({
+                webSocketHandle: handle,
+                msg: req.data()
+            });
         },
 
         WSCLOSE: function(req) {

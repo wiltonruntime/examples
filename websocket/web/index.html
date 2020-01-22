@@ -8,10 +8,13 @@
                 if (null === ws) {
                     console.log("Opening: [" + url + "]");
                     ws = new WebSocket(url);
-                    ws.addEventListener('message', function (event) {
+                    ws.addEventListener("message", function (event) {
                         console.log("Receiving: [" + event.data + "]");
                         var area = document.getElementById("resp");
                         area.value = event.data;
+                    });
+                    ws.addEventListener("close", function () {
+                        console.log("Connection closed");
                     });
                 }
             }

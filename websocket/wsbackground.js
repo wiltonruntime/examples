@@ -1,6 +1,5 @@
-
 /*
- * Copyright 2018, alex at staticlibs.net
+ * Copyright 2020, alex at staticlibs.net
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,26 +17,23 @@
 define([
     "module",
     "wilton/Channel",
+    "wilton/DelayedWebSocket",
     "wilton/Logger",
-    "wilton/Server"
-], function(module, Channel, Logger, Server) {
+    "wilton/thread"
+], function(module, Channel, DelayedWebSocket, Logger, thread) {
     "use strict";
     var logger = new Logger(module.id);
 
-    return {
-        POST: function(req) {
-            logger.info("Broadcasting message, id: [" + req.data() + "] ...");
-            var serverHandleJson = Channel.lookup("server/instance").peek();
-            var server = new Server(serverHandleJson);
-            server.broadcastWebSocket({
-                path: "/websocket/views/wsmirror",
-                message: req.data()
-            });
-            req.sendResponse({
-                broadcastSent: true,
-                broadcastMessage: req.data()
-            });
-            logger.info("Message broadcasted successfully");
+    var chan = Channel.lookup("wsbackground/input");
+
+    return function() {
+        for (;;) {
+            var input = chan.receive();
+            var ws = new DelayedWebSocket(input.webSocketHandle);
+            // add delay
+            thread.sleepMillis(1500);
+            logger.info("Mirroring WebSocket message back, data: [" + input.msg + "] ...");
+            ws.send(input.msg);
         }
     };
 });

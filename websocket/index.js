@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2018, alex at staticlibs.net
  *
@@ -21,14 +20,23 @@ define([
     "wilton/loader",
     "wilton/Logger",
     "wilton/misc",
-    "wilton/Server"
-], function(module, Channel, loader, Logger, misc, Server) {
+    "wilton/Server",
+    "wilton/thread"
+], function(module, Channel, loader, Logger, misc, Server, thread) {
     "use strict";
     var logger = new Logger(module.id);
 
     return {
         main: function() {
             Logger.initConsole("INFO");
+            // channel for processing websocket messages
+            // in background thread
+            new Channel("wsbackground/input", 1024);
+            thread.run({
+                callbackScript: {
+                    module: "websocket/wsbackground"
+                }
+            });
             var server = new Server({
                 views: [
                     "websocket/views/wsmirror",
