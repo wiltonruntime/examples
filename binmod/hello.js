@@ -16,7 +16,7 @@
 
 define([
     "module",
-    "binmod/dep1"
+    "examples/binmod/dep1"
 ], function(module, dep1) {
     "use strict";
 

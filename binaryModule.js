@@ -15,7 +15,7 @@
  */
 
 define([
-    "binmod/hello"
+    "examples/binmod/hello"
 ], function(hello) {
     "use strict";
 
