@@ -41,7 +41,7 @@ define([
                 }, 
                 {
                     resource: "/stdlib/",
-                    zipPath: misc.wiltonConfig().applicationDirectory + "std.wlib",
+                    zipPath: misc.wiltonConfig().wiltonHome + "std.wlib",
 //                    dirPath: "/home/alex/projects/wilton/js/",
                     cacheMaxAgeSeconds: 0
                 }]
