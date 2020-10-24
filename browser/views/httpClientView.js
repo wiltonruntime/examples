@@ -26,7 +26,10 @@ define([
                 req.sendResponse("failresp", {
                     meta: {
                         statusCode: 500,
-                        statusMessage: "fail"
+                        statusMessage: "fail",
+                        headers: {
+                            "Content-Type": "text/plain"
+                        }
                     }
                 });
             } else if ("timeout" === action) {
@@ -37,12 +40,24 @@ define([
                     foo: 42
                 });
             } else {
-                req.sendResponse("OK");
+                req.sendResponse("OK", {
+                    meta: {
+                        headers: {
+                            "Content-Type": "text/plain"
+                        }
+                    }
+                });
             }
         },
 
         POST: function(req) {
-            req.sendResponse(req.data());
+            req.sendResponse(req.data(), {
+                meta: {
+                    headers: {
+                        "Content-Type": "text/plain"
+                    }
+                }
+            });
         }
     };
 });

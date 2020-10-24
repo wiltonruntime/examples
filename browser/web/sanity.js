@@ -56,7 +56,6 @@ define([
     "jsverify",
     "lazy-seq",
     "mathjs",
-    "mime-db",
     "moment",
     "nth-check",
     "process-nextick-args",

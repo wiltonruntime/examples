@@ -87,7 +87,7 @@ define([
     }, function(err, resp) {
         assert.equal(err, null);
         assert.equal(resp.data, "foo");
-        assert.equal(resp.headers["Content-Length"], "3");
+        assert.equal(resp.headers["content-length"], "3");
     });
 
     // fail on >=400
