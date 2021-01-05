@@ -16,9 +16,7 @@
 
 define([], function() {   
     "use strict";
-    return {
-        main: function() {
-            print("Hello wilton!");
-        }
+    return function() {
+        print("Hello wilton!");
     };
 });
